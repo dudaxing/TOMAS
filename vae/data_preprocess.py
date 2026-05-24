@@ -83,7 +83,7 @@ def stack_train_data(mstr_data: torch.Tensor, normalization_types: List[Nomaliza
   max_params = torch.zeros((num_features,))
 
   index =  0
-  for normalization_type in normalization_type:
+  for normalization_type in normalization_types:
     (normalized_params[:, index:index+1],
     max_params[index:index+1],
     min_params[index:index+1]) = normalize_data(
