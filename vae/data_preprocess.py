@@ -83,12 +83,12 @@ def stack_train_data(mstr_data: torch.Tensor, normalization_types: List[Nomaliza
   max_params = torch.zeros((num_features,))
 
   index =  0
-  for normalization_type in normalization_type:
+  for norm_type in normalization_types:
     (normalized_params[:, index:index+1],
     max_params[index:index+1],
     min_params[index:index+1]) = normalize_data(
         mstr_data[:, index:index+1],
-        normalization_type)
+        norm_type)
     index = index + 1
 
 
@@ -96,7 +96,7 @@ def stack_train_data(mstr_data: torch.Tensor, normalization_types: List[Nomaliza
 
 
 def stack_vae_output(vae_output:torch.Tensor, max_feature: torch.Tensor,
-                      min_feature:torch.Tensor, normalization_type: List[NomalizationType])-> torch.Tensor:
+                      min_feature:torch.Tensor, normalization_types: List[NomalizationType])-> torch.Tensor:
   """
   Stack VAE output and renormalize it.
 
@@ -111,10 +111,10 @@ def stack_vae_output(vae_output:torch.Tensor, max_feature: torch.Tensor,
   """
   index = 0
   # Iterate through the normalization types
-  for normalization_type in normalization_type:
+  for norm_type in normalization_types:
     renormalized_param = renormalize_data(vae_output[:, index:index+1],
                                        max_feature[ index:index+1], min_feature[index:index+1],
-                                       normalization_type)
+                                       norm_type)
     if (index == 0):
       renormalized_vae_output = renormalized_param
     else:

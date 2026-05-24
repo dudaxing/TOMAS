@@ -54,4 +54,4 @@ end
 homogen_data = struct('mstr', mstr, 'c00', c00, 'c11', c11, 'c01', c01, 'c10', c10);
 
 % Save the variables to a .mat file
-save(output_file, '-struct', 'homogen_data');
+save('-mat7-binary', output_file, '-struct', 'homogen_data');
