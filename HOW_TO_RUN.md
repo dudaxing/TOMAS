@@ -1,9 +1,14 @@
-# How to run TOMAS (Linux Python + Windows MATLAB)
+# How to run TOMAS (pure Python)
 
-This repository combines Python (data generation, VAE training, neural-net
-based topology optimization) with a MATLAB Stokes-Brinkman homogenizer.
-The Python parts run in the cloud agent VM (Linux); the MATLAB part runs
-on the user's local Windows machine.
+This repository combines super-shape micro-structure generation, a
+Stokes-Brinkman homogenizer, a VAE trained on shape parameters + homogenized
+properties, and a neural-network based multiscale fluid topology
+optimizer.  All four stages now have headless Python entry-points and
+run end-to-end on Linux without MATLAB.
+
+A faithful translation of the original MATLAB homogenizer lives in
+``dataset/fluid_homogenization.py``; the original ``.m`` files are kept
+under ``dataset/`` for reference / cross-checking.
 
 ## 1. Python environment
 
@@ -42,22 +47,28 @@ Outputs (compressed `.mat`) go to `dataset/`:
 You can change `num_samples`, mesh resolution, parameter ranges, and the
 dataset index in `notebooks/datagen.yaml`.
 
-## 3. Homogenize the microstructures (MATLAB, Windows)
+## 3. Homogenize the microstructures (Python)
 
-1. Copy `dataset/mstr_images_1.mat` (and the `.m` files in `dataset/`) to
-   your local MATLAB session.
-2. From inside `dataset/`, run:
+```bash
+source .venv/bin/activate
+python scripts/test_homogenization.py     # quick sanity tests (~1 s)
+python scripts/run_homogenization.py      # full dataset (~9 min for 100x150^2)
+```
 
-   ```matlab
-   run_homogenization_dataset
-   ```
+The Python implementation lives in
+``dataset/fluid_homogenization.py``.  It is a direct translation of
+``dataset/fluidHomogenization.m`` (same Q2-P1 element pair, same
+Brinkman penalty, same periodic-BC remapping, same pressure
+stabilisation), validated against analytic limit cases in
+``scripts/test_homogenization.py``.
 
-   That wrapper just calls `generate_homogenized_data('mstr_images_1.mat',
-   'homogen_data_1.mat')`, which in turn calls `fluidHomogenization` on
-   each of the 100 micro-cells.
-3. The script writes `homogen_data_1.mat` containing `mstr, c00, c01, c10,
-   c11` (each `N x 1`).
-4. Place `homogen_data_1.mat` back in `dataset/`.
+Output is ``dataset/homogen_data_<n>.mat`` containing ``mstr, c00, c01,
+c10, c11`` -- the same keys the MATLAB version wrote.
+
+If you prefer to run the original MATLAB code instead:
+
+1. Copy ``dataset/mstr_images_1.mat`` and the ``.m`` files to MATLAB.
+2. From inside ``dataset/``, run ``run_homogenization_dataset``.
 
 ## 4. Train the VAE (Python)
 
