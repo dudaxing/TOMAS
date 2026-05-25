@@ -1,0 +1,400 @@
+/workspace/fluid_TO/fluid_fe.py:29: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  fixture_const*torch.sparse_coo_tensor(indices, values, V.size())
+Loaded VAE + normalisation tensors.
+Adam optimizer
+/workspace/fluid_TO/fluid_fe.py:63: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /pytorch/torch/csrc/utils/tensor_new.cpp:253.)
+  assembled_A_matrix =  torch.sparse_coo_tensor(
+Iter   0 J: 3.86E+01 perimeter: 86.91
+/workspace/fluid_TO/plot.py:56: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+/workspace/fluid_TO/plot.py:57: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.pause(0.01)
+Saved /workspace/output/n500_biffurcated/design_epoch_0000.png
+Iter   1 J: 3.78E+01 perimeter: 81.50
+Iter   2 J: 3.62E+01 perimeter: 78.38
+Iter   3 J: 3.61E+01 perimeter: 78.28
+Iter   4 J: 3.26E+01 perimeter: 68.37
+Iter   5 J: 3.10E+01 perimeter: 67.33
+Iter   6 J: 2.97E+01 perimeter: 66.97
+Iter   7 J: 2.98E+01 perimeter: 67.05
+Iter   8 J: 2.89E+01 perimeter: 64.36
+Iter   9 J: 2.81E+01 perimeter: 60.66
+Iter  10 J: 2.72E+01 perimeter: 59.00
+Saved /workspace/output/n500_biffurcated/design_epoch_0010.png
+Iter  11 J: 2.67E+01 perimeter: 59.90
+Iter  12 J: 2.69E+01 perimeter: 65.44
+Iter  13 J: 2.70E+01 perimeter: 70.04
+Iter  14 J: 2.64E+01 perimeter: 67.39
+Iter  15 J: 2.59E+01 perimeter: 66.71
+Iter  16 J: 2.55E+01 perimeter: 68.36
+Iter  17 J: 2.55E+01 perimeter: 70.08
+Iter  18 J: 2.55E+01 perimeter: 71.12
+Iter  19 J: 2.53E+01 perimeter: 70.56
+Iter  20 J: 2.52E+01 perimeter: 68.55
+Saved /workspace/output/n500_biffurcated/design_epoch_0020.png
+Iter  21 J: 2.49E+01 perimeter: 65.97
+Iter  22 J: 2.47E+01 perimeter: 65.74
+Iter  23 J: 2.46E+01 perimeter: 66.06
+Iter  24 J: 2.45E+01 perimeter: 66.96
+Iter  25 J: 2.43E+01 perimeter: 67.19
+Iter  26 J: 2.41E+01 perimeter: 65.90
+Iter  27 J: 2.40E+01 perimeter: 64.96
+Iter  28 J: 2.42E+01 perimeter: 66.96
+Iter  29 J: 2.41E+01 perimeter: 67.34
+Iter  30 J: 2.41E+01 perimeter: 67.54
+Saved /workspace/output/n500_biffurcated/design_epoch_0030.png
+Iter  31 J: 2.42E+01 perimeter: 69.10
+Iter  32 J: 2.41E+01 perimeter: 69.27
+Iter  33 J: 2.40E+01 perimeter: 68.90
+Iter  34 J: 2.39E+01 perimeter: 68.54
+Iter  35 J: 2.39E+01 perimeter: 68.49
+Iter  36 J: 2.38E+01 perimeter: 68.22
+Iter  37 J: 2.39E+01 perimeter: 68.47
+Iter  38 J: 2.39E+01 perimeter: 69.18
+Iter  39 J: 2.38E+01 perimeter: 69.39
+Iter  40 J: 2.38E+01 perimeter: 69.91
+Saved /workspace/output/n500_biffurcated/design_epoch_0040.png
+Iter  41 J: 2.37E+01 perimeter: 69.58
+Iter  42 J: 2.39E+01 perimeter: 70.72
+Iter  43 J: 2.38E+01 perimeter: 70.88
+Iter  44 J: 2.37E+01 perimeter: 70.33
+Iter  45 J: 2.37E+01 perimeter: 70.44
+Iter  46 J: 2.37E+01 perimeter: 70.42
+Iter  47 J: 2.37E+01 perimeter: 70.65
+Iter  48 J: 2.37E+01 perimeter: 71.20
+Iter  49 J: 2.36E+01 perimeter: 70.32
+Iter  50 J: 2.37E+01 perimeter: 70.22
+Saved /workspace/output/n500_biffurcated/design_epoch_0050.png
+Iter  51 J: 2.36E+01 perimeter: 69.94
+Iter  52 J: 2.37E+01 perimeter: 70.15
+Iter  53 J: 2.37E+01 perimeter: 70.39
+Iter  54 J: 2.37E+01 perimeter: 70.89
+Iter  55 J: 2.37E+01 perimeter: 70.95
+Iter  56 J: 2.37E+01 perimeter: 71.80
+Iter  57 J: 2.38E+01 perimeter: 71.92
+Iter  58 J: 2.37E+01 perimeter: 71.11
+Iter  59 J: 2.36E+01 perimeter: 70.71
+Iter  60 J: 2.37E+01 perimeter: 71.75
+Saved /workspace/output/n500_biffurcated/design_epoch_0060.png
+Iter  61 J: 2.37E+01 perimeter: 72.00
+Iter  62 J: 2.36E+01 perimeter: 71.56
+Iter  63 J: 2.36E+01 perimeter: 71.61
+Iter  64 J: 2.35E+01 perimeter: 71.60
+Iter  65 J: 2.37E+01 perimeter: 71.92
+Iter  66 J: 2.37E+01 perimeter: 71.53
+Iter  67 J: 2.35E+01 perimeter: 71.40
+Iter  68 J: 2.36E+01 perimeter: 71.80
+Iter  69 J: 2.37E+01 perimeter: 73.00
+Iter  70 J: 2.36E+01 perimeter: 72.80
+Saved /workspace/output/n500_biffurcated/design_epoch_0070.png
+Iter  71 J: 2.37E+01 perimeter: 72.60
+Iter  72 J: 2.37E+01 perimeter: 73.19
+Iter  73 J: 2.36E+01 perimeter: 73.35
+Iter  74 J: 2.36E+01 perimeter: 72.97
+Iter  75 J: 2.35E+01 perimeter: 72.85
+Iter  76 J: 2.35E+01 perimeter: 71.94
+Iter  77 J: 2.35E+01 perimeter: 71.70
+Iter  78 J: 2.36E+01 perimeter: 71.88
+Iter  79 J: 2.35E+01 perimeter: 72.25
+Iter  80 J: 2.36E+01 perimeter: 72.10
+Saved /workspace/output/n500_biffurcated/design_epoch_0080.png
+Iter  81 J: 2.35E+01 perimeter: 70.93
+Iter  82 J: 2.34E+01 perimeter: 72.28
+Iter  83 J: 2.35E+01 perimeter: 72.93
+Iter  84 J: 2.35E+01 perimeter: 72.54
+Iter  85 J: 2.36E+01 perimeter: 73.86
+Iter  86 J: 2.36E+01 perimeter: 74.03
+Iter  87 J: 2.35E+01 perimeter: 71.48
+Iter  88 J: 2.35E+01 perimeter: 72.59
+Iter  89 J: 2.35E+01 perimeter: 73.34
+Iter  90 J: 2.37E+01 perimeter: 73.88
+Saved /workspace/output/n500_biffurcated/design_epoch_0090.png
+Iter  91 J: 2.37E+01 perimeter: 73.32
+Iter  92 J: 2.35E+01 perimeter: 72.66
+Iter  93 J: 2.38E+01 perimeter: 73.59
+Iter  94 J: 2.39E+01 perimeter: 72.28
+Iter  95 J: 2.38E+01 perimeter: 72.45
+Iter  96 J: 2.36E+01 perimeter: 72.76
+Iter  97 J: 2.37E+01 perimeter: 72.10
+Iter  98 J: 2.39E+01 perimeter: 72.97
+Iter  99 J: 2.40E+01 perimeter: 73.51
+Iter 100 J: 2.37E+01 perimeter: 72.40
+Saved /workspace/output/n500_biffurcated/design_epoch_0100.png
+Iter 101 J: 2.35E+01 perimeter: 70.89
+Iter 102 J: 2.36E+01 perimeter: 72.70
+Iter 103 J: 2.37E+01 perimeter: 73.35
+Iter 104 J: 2.36E+01 perimeter: 72.51
+Iter 105 J: 2.35E+01 perimeter: 72.95
+Iter 106 J: 2.36E+01 perimeter: 73.64
+Iter 107 J: 2.36E+01 perimeter: 73.04
+Iter 108 J: 2.35E+01 perimeter: 71.96
+Iter 109 J: 2.34E+01 perimeter: 71.15
+Iter 110 J: 2.34E+01 perimeter: 72.19
+Saved /workspace/output/n500_biffurcated/design_epoch_0110.png
+Iter 111 J: 2.34E+01 perimeter: 73.20
+Iter 112 J: 2.35E+01 perimeter: 73.44
+Iter 113 J: 2.37E+01 perimeter: 73.89
+Iter 114 J: 2.36E+01 perimeter: 73.42
+Iter 115 J: 2.35E+01 perimeter: 72.97
+Iter 116 J: 2.34E+01 perimeter: 72.82
+Iter 117 J: 2.34E+01 perimeter: 73.37
+Iter 118 J: 2.33E+01 perimeter: 73.50
+Iter 119 J: 2.34E+01 perimeter: 73.03
+Iter 120 J: 2.33E+01 perimeter: 72.22
+Saved /workspace/output/n500_biffurcated/design_epoch_0120.png
+Iter 121 J: 2.34E+01 perimeter: 73.31
+Iter 122 J: 2.34E+01 perimeter: 73.50
+Iter 123 J: 2.33E+01 perimeter: 73.54
+Iter 124 J: 2.33E+01 perimeter: 73.27
+Iter 125 J: 2.33E+01 perimeter: 72.61
+Iter 126 J: 2.33E+01 perimeter: 72.88
+Iter 127 J: 2.33E+01 perimeter: 73.86
+Iter 128 J: 2.33E+01 perimeter: 73.52
+Iter 129 J: 2.32E+01 perimeter: 73.19
+Iter 130 J: 2.33E+01 perimeter: 73.09
+Saved /workspace/output/n500_biffurcated/design_epoch_0130.png
+Iter 131 J: 2.33E+01 perimeter: 72.81
+Iter 132 J: 2.32E+01 perimeter: 72.95
+Iter 133 J: 2.33E+01 perimeter: 73.50
+Iter 134 J: 2.32E+01 perimeter: 73.46
+Iter 135 J: 2.33E+01 perimeter: 74.18
+Iter 136 J: 2.32E+01 perimeter: 72.57
+Iter 137 J: 2.32E+01 perimeter: 73.35
+Iter 138 J: 2.33E+01 perimeter: 74.45
+Iter 139 J: 2.32E+01 perimeter: 73.14
+Iter 140 J: 2.32E+01 perimeter: 72.28
+Saved /workspace/output/n500_biffurcated/design_epoch_0140.png
+Iter 141 J: 2.32E+01 perimeter: 73.04
+Iter 142 J: 2.34E+01 perimeter: 74.87
+Iter 143 J: 2.33E+01 perimeter: 74.16
+Iter 144 J: 2.32E+01 perimeter: 71.46
+Iter 145 J: 2.34E+01 perimeter: 73.07
+Iter 146 J: 2.33E+01 perimeter: 73.56
+Iter 147 J: 2.33E+01 perimeter: 73.45
+Iter 148 J: 2.33E+01 perimeter: 73.37
+Iter 149 J: 2.31E+01 perimeter: 72.51
+Iter 150 J: 2.33E+01 perimeter: 74.23
+Saved /workspace/output/n500_biffurcated/design_epoch_0150.png
+Iter 151 J: 2.33E+01 perimeter: 74.48
+Iter 152 J: 2.32E+01 perimeter: 73.09
+Iter 153 J: 2.32E+01 perimeter: 72.83
+Iter 154 J: 2.32E+01 perimeter: 73.56
+Iter 155 J: 2.32E+01 perimeter: 73.77
+Iter 156 J: 2.33E+01 perimeter: 73.75
+Iter 157 J: 2.32E+01 perimeter: 72.76
+Iter 158 J: 2.32E+01 perimeter: 74.10
+Iter 159 J: 2.32E+01 perimeter: 73.74
+Iter 160 J: 2.31E+01 perimeter: 72.94
+Saved /workspace/output/n500_biffurcated/design_epoch_0160.png
+Iter 161 J: 2.32E+01 perimeter: 73.21
+Iter 162 J: 2.32E+01 perimeter: 74.33
+Iter 163 J: 2.33E+01 perimeter: 74.05
+Iter 164 J: 2.32E+01 perimeter: 74.09
+Iter 165 J: 2.33E+01 perimeter: 74.51
+Iter 166 J: 2.33E+01 perimeter: 73.52
+Iter 167 J: 2.32E+01 perimeter: 73.42
+Iter 168 J: 2.33E+01 perimeter: 73.53
+Iter 169 J: 2.32E+01 perimeter: 74.39
+Iter 170 J: 2.32E+01 perimeter: 74.02
+Saved /workspace/output/n500_biffurcated/design_epoch_0170.png
+Iter 171 J: 2.32E+01 perimeter: 73.84
+Iter 172 J: 2.32E+01 perimeter: 72.37
+Iter 173 J: 2.33E+01 perimeter: 73.70
+Iter 174 J: 2.33E+01 perimeter: 74.39
+Iter 175 J: 2.32E+01 perimeter: 73.51
+Iter 176 J: 2.33E+01 perimeter: 72.96
+Iter 177 J: 2.33E+01 perimeter: 73.89
+Iter 178 J: 2.32E+01 perimeter: 73.70
+Iter 179 J: 2.32E+01 perimeter: 73.80
+Iter 180 J: 2.33E+01 perimeter: 75.12
+Saved /workspace/output/n500_biffurcated/design_epoch_0180.png
+Iter 181 J: 2.32E+01 perimeter: 74.20
+Iter 182 J: 2.32E+01 perimeter: 73.56
+Iter 183 J: 2.32E+01 perimeter: 73.22
+Iter 184 J: 2.31E+01 perimeter: 74.33
+Iter 185 J: 2.34E+01 perimeter: 74.97
+Iter 186 J: 2.34E+01 perimeter: 74.12
+Iter 187 J: 2.32E+01 perimeter: 71.86
+Iter 188 J: 2.31E+01 perimeter: 72.35
+Iter 189 J: 2.33E+01 perimeter: 73.99
+Iter 190 J: 2.33E+01 perimeter: 73.81
+Saved /workspace/output/n500_biffurcated/design_epoch_0190.png
+Iter 191 J: 2.32E+01 perimeter: 73.80
+Iter 192 J: 2.32E+01 perimeter: 74.86
+Iter 193 J: 2.33E+01 perimeter: 74.52
+Iter 194 J: 2.31E+01 perimeter: 73.20
+Iter 195 J: 2.32E+01 perimeter: 73.98
+Iter 196 J: 2.31E+01 perimeter: 73.82
+Iter 197 J: 2.32E+01 perimeter: 74.74
+Iter 198 J: 2.32E+01 perimeter: 74.51
+Iter 199 J: 2.31E+01 perimeter: 73.87
+Iter 200 J: 2.31E+01 perimeter: 74.48
+Saved /workspace/output/n500_biffurcated/design_epoch_0200.png
+Iter 201 J: 2.31E+01 perimeter: 73.70
+Iter 202 J: 2.31E+01 perimeter: 73.55
+Iter 203 J: 2.32E+01 perimeter: 74.78
+Iter 204 J: 2.31E+01 perimeter: 74.11
+Iter 205 J: 2.31E+01 perimeter: 73.44
+Iter 206 J: 2.31E+01 perimeter: 73.96
+Iter 207 J: 2.31E+01 perimeter: 74.82
+Iter 208 J: 2.31E+01 perimeter: 73.98
+Iter 209 J: 2.31E+01 perimeter: 74.14
+Iter 210 J: 2.32E+01 perimeter: 74.87
+Saved /workspace/output/n500_biffurcated/design_epoch_0210.png
+Iter 211 J: 2.31E+01 perimeter: 74.03
+Iter 212 J: 2.31E+01 perimeter: 73.69
+Iter 213 J: 2.30E+01 perimeter: 73.50
+Iter 214 J: 2.32E+01 perimeter: 75.39
+Iter 215 J: 2.31E+01 perimeter: 74.36
+Iter 216 J: 2.31E+01 perimeter: 74.38
+Iter 217 J: 2.30E+01 perimeter: 73.35
+Iter 218 J: 2.30E+01 perimeter: 73.42
+Iter 219 J: 2.30E+01 perimeter: 74.28
+Iter 220 J: 2.30E+01 perimeter: 75.02
+Saved /workspace/output/n500_biffurcated/design_epoch_0220.png
+Iter 221 J: 2.30E+01 perimeter: 73.00
+Iter 222 J: 2.30E+01 perimeter: 73.20
+Iter 223 J: 2.30E+01 perimeter: 73.97
+Iter 224 J: 2.32E+01 perimeter: 74.82
+Iter 225 J: 2.32E+01 perimeter: 75.47
+Iter 226 J: 2.30E+01 perimeter: 74.58
+Iter 227 J: 2.31E+01 perimeter: 73.55
+Iter 228 J: 2.31E+01 perimeter: 73.35
+Iter 229 J: 2.31E+01 perimeter: 74.14
+Iter 230 J: 2.30E+01 perimeter: 73.61
+Saved /workspace/output/n500_biffurcated/design_epoch_0230.png
+Iter 231 J: 2.31E+01 perimeter: 74.91
+Iter 232 J: 2.31E+01 perimeter: 74.57
+Iter 233 J: 2.30E+01 perimeter: 73.11
+Iter 234 J: 2.32E+01 perimeter: 75.09
+Iter 235 J: 2.31E+01 perimeter: 73.91
+Iter 236 J: 2.31E+01 perimeter: 73.77
+Iter 237 J: 2.31E+01 perimeter: 74.40
+Iter 238 J: 2.31E+01 perimeter: 74.19
+Iter 239 J: 2.30E+01 perimeter: 74.28
+Iter 240 J: 2.31E+01 perimeter: 74.36
+Saved /workspace/output/n500_biffurcated/design_epoch_0240.png
+Iter 241 J: 2.32E+01 perimeter: 74.14
+Iter 242 J: 2.31E+01 perimeter: 74.21
+Iter 243 J: 2.31E+01 perimeter: 74.23
+Iter 244 J: 2.32E+01 perimeter: 75.25
+Iter 245 J: 2.31E+01 perimeter: 74.28
+Iter 246 J: 2.30E+01 perimeter: 73.76
+Iter 247 J: 2.32E+01 perimeter: 74.41
+Iter 248 J: 2.31E+01 perimeter: 74.56
+Iter 249 J: 2.30E+01 perimeter: 73.71
+Iter 250 J: 2.31E+01 perimeter: 74.56
+Saved /workspace/output/n500_biffurcated/design_epoch_0250.png
+Iter 251 J: 2.31E+01 perimeter: 75.45
+Iter 252 J: 2.31E+01 perimeter: 72.73
+Iter 253 J: 2.31E+01 perimeter: 74.11
+Iter 254 J: 2.31E+01 perimeter: 74.12
+Iter 255 J: 2.33E+01 perimeter: 74.55
+Iter 256 J: 2.33E+01 perimeter: 74.30
+Iter 257 J: 2.32E+01 perimeter: 74.67
+Iter 258 J: 2.32E+01 perimeter: 75.42
+Iter 259 J: 2.32E+01 perimeter: 72.79
+Iter 260 J: 2.34E+01 perimeter: 73.77
+Saved /workspace/output/n500_biffurcated/design_epoch_0260.png
+Iter 261 J: 2.33E+01 perimeter: 74.36
+Iter 262 J: 2.33E+01 perimeter: 73.71
+Iter 263 J: 2.33E+01 perimeter: 73.13
+Iter 264 J: 2.33E+01 perimeter: 74.03
+Iter 265 J: 2.31E+01 perimeter: 73.89
+Iter 266 J: 2.31E+01 perimeter: 73.69
+Iter 267 J: 2.31E+01 perimeter: 73.56
+Iter 268 J: 2.32E+01 perimeter: 74.76
+Iter 269 J: 2.32E+01 perimeter: 73.22
+Iter 270 J: 2.32E+01 perimeter: 74.35
+Saved /workspace/output/n500_biffurcated/design_epoch_0270.png
+Iter 271 J: 2.31E+01 perimeter: 74.41
+Iter 272 J: 2.31E+01 perimeter: 74.80
+Iter 273 J: 2.31E+01 perimeter: 73.59
+Iter 274 J: 2.32E+01 perimeter: 74.05
+Iter 275 J: 2.31E+01 perimeter: 74.22
+Iter 276 J: 2.31E+01 perimeter: 74.41
+Iter 277 J: 2.31E+01 perimeter: 75.22
+Iter 278 J: 2.31E+01 perimeter: 72.85
+Iter 279 J: 2.31E+01 perimeter: 74.16
+Iter 280 J: 2.31E+01 perimeter: 74.62
+Saved /workspace/output/n500_biffurcated/design_epoch_0280.png
+Iter 281 J: 2.31E+01 perimeter: 74.00
+Iter 282 J: 2.31E+01 perimeter: 74.42
+Iter 283 J: 2.30E+01 perimeter: 74.19
+Iter 284 J: 2.30E+01 perimeter: 73.80
+Iter 285 J: 2.31E+01 perimeter: 74.31
+Iter 286 J: 2.30E+01 perimeter: 75.05
+Iter 287 J: 2.31E+01 perimeter: 73.81
+Iter 288 J: 2.30E+01 perimeter: 73.90
+Iter 289 J: 2.30E+01 perimeter: 75.41
+Iter 290 J: 2.31E+01 perimeter: 74.96
+Saved /workspace/output/n500_biffurcated/design_epoch_0290.png
+Iter 291 J: 2.30E+01 perimeter: 73.70
+Iter 292 J: 2.30E+01 perimeter: 74.62
+Iter 293 J: 2.30E+01 perimeter: 73.16
+Iter 294 J: 2.30E+01 perimeter: 73.93
+Iter 295 J: 2.31E+01 perimeter: 75.69
+Iter 296 J: 2.31E+01 perimeter: 75.32
+Iter 297 J: 2.30E+01 perimeter: 73.34
+Iter 298 J: 2.30E+01 perimeter: 74.50
+Iter 299 J: 2.30E+01 perimeter: 74.33
+Iter 300 J: 2.30E+01 perimeter: 74.23
+Saved /workspace/output/n500_biffurcated/design_epoch_0300.png
+Iter 301 J: 2.30E+01 perimeter: 74.49
+Iter 302 J: 2.30E+01 perimeter: 74.22
+Iter 303 J: 2.30E+01 perimeter: 74.84
+Iter 304 J: 2.30E+01 perimeter: 73.80
+Iter 305 J: 2.30E+01 perimeter: 74.77
+Iter 306 J: 2.31E+01 perimeter: 76.12
+Iter 307 J: 2.31E+01 perimeter: 74.14
+Iter 308 J: 2.30E+01 perimeter: 73.82
+Iter 309 J: 2.30E+01 perimeter: 74.69
+Iter 310 J: 2.30E+01 perimeter: 73.95
+Saved /workspace/output/n500_biffurcated/design_epoch_0310.png
+Iter 311 J: 2.30E+01 perimeter: 74.20
+Iter 312 J: 2.31E+01 perimeter: 75.05
+Iter 313 J: 2.30E+01 perimeter: 73.77
+Iter 314 J: 2.30E+01 perimeter: 73.84
+Iter 315 J: 2.30E+01 perimeter: 75.16
+Iter 316 J: 2.30E+01 perimeter: 74.32
+Iter 317 J: 2.30E+01 perimeter: 74.12
+Iter 318 J: 2.31E+01 perimeter: 75.63
+Iter 319 J: 2.30E+01 perimeter: 74.93
+Iter 320 J: 2.30E+01 perimeter: 73.80
+Saved /workspace/output/n500_biffurcated/design_epoch_0320.png
+Iter 321 J: 2.30E+01 perimeter: 74.05
+Iter 322 J: 2.31E+01 perimeter: 75.37
+Iter 323 J: 2.31E+01 perimeter: 74.69
+Iter 324 J: 2.30E+01 perimeter: 72.21
+Iter 325 J: 2.30E+01 perimeter: 72.34
+Iter 326 J: 2.31E+01 perimeter: 74.31
+Iter 327 J: 2.30E+01 perimeter: 73.86
+Iter 328 J: 2.30E+01 perimeter: 74.74
+Iter 329 J: 2.30E+01 perimeter: 74.67
+Iter 330 J: 2.30E+01 perimeter: 73.24
+Saved /workspace/output/n500_biffurcated/design_epoch_0330.png
+Iter 331 J: 2.32E+01 perimeter: 74.52
+Iter 332 J: 2.31E+01 perimeter: 74.51
+Iter 333 J: 2.30E+01 perimeter: 74.80
+Iter 334 J: 2.30E+01 perimeter: 73.42
+Iter 335 J: 2.32E+01 perimeter: 75.13
+Iter 336 J: 2.31E+01 perimeter: 74.58
+Iter 337 J: 2.30E+01 perimeter: 73.98
+Iter 338 J: 2.31E+01 perimeter: 74.46
+Iter 339 J: 2.31E+01 perimeter: 74.63
+Iter 340 J: 2.30E+01 perimeter: 74.07
+Saved /workspace/output/n500_biffurcated/design_epoch_0340.png
+Iter 341 J: 2.31E+01 perimeter: 74.88
+Iter 342 J: 2.30E+01 perimeter: 75.79
+Iter 343 J: 2.30E+01 perimeter: 74.45
+Iter 344 J: 2.30E+01 perimeter: 73.76
+Iter 345 J: 2.30E+01 perimeter: 74.43
+Iter 346 J: 2.30E+01 perimeter: 75.17
+Iter 347 J: 2.29E+01 perimeter: 73.23
+Iter 348 J: 2.30E+01 perimeter: 74.03
+Iter 349 J: 2.30E+01 perimeter: 74.37
+Iter 350 J: 2.30E+01 perimeter: 73.98
+Saved /workspace/output/n500_biffurcated/design_epoch_0350.png
+
+Optimization done in 117.8 s
+Saved /workspace/output/n500_biffurcated/convergence.png

@@ -20,5 +20,5 @@ MESH:
   nelx: 150
   nely: 150
 DATASET:
-  num_samples: 100
+  num_samples: 500
   dataset_num: 1

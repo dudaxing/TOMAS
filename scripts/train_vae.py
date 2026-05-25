@@ -47,6 +47,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="train even if a saved vae_net.pt already exists",
     )
+    parser.add_argument(
+        "--lr",
+        type=float,
+        default=None,
+        help="override learning rate from vae_config.yaml",
+    )
     return parser.parse_args()
 
 
@@ -118,13 +124,14 @@ def main() -> None:
     if (not os.path.isfile(weight_path)) or args.retrain:
         opt_yaml = vae_config["OPTIMIZATION"]
         num_epochs = args.epochs if args.epochs is not None else opt_yaml["num_epochs"]
-        print(f"Training VAE for {num_epochs} epochs (lr={opt_yaml['lr']}, kl={opt_yaml['kl_factor']}) ...")
+        lr = args.lr if args.lr is not None else opt_yaml["lr"]
+        print(f"Training VAE for {num_epochs} epochs (lr={lr}, kl={opt_yaml['kl_factor']}) ...")
         convg_history = train_vae.train_autoencoder(
             vae=vae_net,
             train_data=normalized_train_data,
             num_epochs=num_epochs,
             kl_factor=opt_yaml["kl_factor"],
-            lr=opt_yaml["lr"],
+            lr=lr,
             save_file=weight_path,
             print_every=max(1, num_epochs // 10),
         )

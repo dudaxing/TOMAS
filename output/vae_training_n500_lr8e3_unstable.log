@@ -1,0 +1,16 @@
+shape_params: (500, 8), c00/c11: (500, 1), area: (1, 500), perim: (1, 500)
+normalized data: 500 samples, 12 features
+Training VAE for 17000 epochs (lr=0.008, kl=1e-07) ...
+iter 0 	 recon_loss 	 8.04E-02 	 kl_loss 4.69E+02 	 net_loss 8.04E-02
+iter 1700 	 recon_loss 	 4.64E-03 	 kl_loss 7.38E+03 	 net_loss 5.38E-03
+iter 3400 	 recon_loss 	 2.27E-03 	 kl_loss 6.97E+03 	 net_loss 2.96E-03
+iter 5100 	 recon_loss 	 1.53E-03 	 kl_loss 6.69E+03 	 net_loss 2.20E-03
+iter 6800 	 recon_loss 	 2.41E-01 	 kl_loss 1.18E+05 	 net_loss 2.53E-01
+iter 8500 	 recon_loss 	 2.47E-01 	 kl_loss 2.53E+05 	 net_loss 2.72E-01
+iter 10200 	 recon_loss 	 2.40E-01 	 kl_loss 4.45E+05 	 net_loss 2.84E-01
+iter 11900 	 recon_loss 	 2.66E-01 	 kl_loss 1.79E+05 	 net_loss 2.84E-01
+iter 13600 	 recon_loss 	 2.49E-01 	 kl_loss 1.25E+05 	 net_loss 2.61E-01
+iter 15300 	 recon_loss 	 2.32E-01 	 kl_loss 1.81E+05 	 net_loss 2.50E-01
+Saved /workspace/output/vae_loss_history.png
+Saved normalisation info -> /workspace/vae/nomalization.pt
+Saved /workspace/output/vae_latent_space.png
