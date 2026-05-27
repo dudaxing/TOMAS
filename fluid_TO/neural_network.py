@@ -68,7 +68,7 @@ class TopOptNet(nn.Module):
 
     nn_out = (self.layers[-1](x))
     z, theta = nn_out[:, :-1], nn_out[:, -1]
-    z = -3. + 6.*torch.sigmoid(z)
+    z = -8. + 16.*torch.sigmoid(z)
     theta = torch.pi*torch.sigmoid(theta)   
     
     return z, theta

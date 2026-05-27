@@ -28,7 +28,7 @@ def train_autoencoder(vae: network.VariationalAutoencoder,
   for epoch in range(num_epochs):
     opt.zero_grad()
     pred_data = vae(train_data)
-    kl_loss = vae.encoder.kl
+    kl_loss = vae.encoder.kl / train_data.shape[0]
     recon_loss =  ((train_data - pred_data)**2).mean()
     loss = recon_loss + kl_factor*kl_loss 
     loss.backward()

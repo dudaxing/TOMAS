@@ -1,0 +1,398 @@
+/home/dubin/TOMAS/fluid_TO/fluid_fe.py:63: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at ../torch/csrc/utils/tensor_new.cpp:261.)
+  assembled_A_matrix =  torch.sparse_coo_tensor(
+/home/dubin/TOMAS/fluid_TO/plot.py:56: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+/home/dubin/TOMAS/fluid_TO/plot.py:57: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.pause(0.01)
+Loaded VAE + normalisation tensors.
+Adam optimizer
+Iter   0 J: 3.46E+01 perimeter: 60.42
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0000.png
+Iter   1 J: 3.09E+01 perimeter: 57.44
+Iter   2 J: 2.89E+01 perimeter: 54.86
+Iter   3 J: 2.71E+01 perimeter: 54.26
+Iter   4 J: 2.64E+01 perimeter: 49.19
+Iter   5 J: 2.45E+01 perimeter: 44.53
+Iter   6 J: 2.42E+01 perimeter: 47.03
+Iter   7 J: 2.41E+01 perimeter: 47.67
+Iter   8 J: 2.41E+01 perimeter: 46.07
+Iter   9 J: 2.43E+01 perimeter: 49.10
+Iter  10 J: 2.46E+01 perimeter: 51.77
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0010.png
+Iter  11 J: 2.45E+01 perimeter: 53.53
+Iter  12 J: 2.45E+01 perimeter: 58.72
+Iter  13 J: 2.47E+01 perimeter: 59.01
+Iter  14 J: 2.47E+01 perimeter: 59.97
+Iter  15 J: 2.44E+01 perimeter: 59.50
+Iter  16 J: 2.41E+01 perimeter: 59.94
+Iter  17 J: 2.38E+01 perimeter: 59.65
+Iter  18 J: 2.37E+01 perimeter: 59.93
+Iter  19 J: 2.38E+01 perimeter: 63.07
+Iter  20 J: 2.37E+01 perimeter: 65.24
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0020.png
+Iter  21 J: 2.35E+01 perimeter: 64.92
+Iter  22 J: 2.34E+01 perimeter: 66.12
+Iter  23 J: 2.34E+01 perimeter: 67.74
+Iter  24 J: 2.34E+01 perimeter: 67.62
+Iter  25 J: 2.33E+01 perimeter: 67.52
+Iter  26 J: 2.31E+01 perimeter: 65.42
+Iter  27 J: 2.31E+01 perimeter: 64.59
+Iter  28 J: 2.30E+01 perimeter: 63.91
+Iter  29 J: 2.31E+01 perimeter: 65.28
+Iter  30 J: 2.32E+01 perimeter: 67.51
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0030.png
+Iter  31 J: 2.30E+01 perimeter: 67.83
+Iter  32 J: 2.30E+01 perimeter: 67.29
+Iter  33 J: 2.29E+01 perimeter: 67.07
+Iter  34 J: 2.28E+01 perimeter: 66.05
+Iter  35 J: 2.28E+01 perimeter: 66.58
+Iter  36 J: 2.27E+01 perimeter: 65.82
+Iter  37 J: 2.26E+01 perimeter: 66.51
+Iter  38 J: 2.26E+01 perimeter: 67.03
+Iter  39 J: 2.27E+01 perimeter: 68.66
+Iter  40 J: 2.27E+01 perimeter: 67.33
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0040.png
+Iter  41 J: 2.27E+01 perimeter: 68.00
+Iter  42 J: 2.27E+01 perimeter: 67.98
+Iter  43 J: 2.28E+01 perimeter: 68.74
+Iter  44 J: 2.28E+01 perimeter: 69.69
+Iter  45 J: 2.28E+01 perimeter: 69.51
+Iter  46 J: 2.26E+01 perimeter: 69.29
+Iter  47 J: 2.25E+01 perimeter: 66.87
+Iter  48 J: 2.25E+01 perimeter: 67.32
+Iter  49 J: 2.25E+01 perimeter: 69.75
+Iter  50 J: 2.25E+01 perimeter: 70.33
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0050.png
+Iter  51 J: 2.25E+01 perimeter: 69.87
+Iter  52 J: 2.24E+01 perimeter: 68.06
+Iter  53 J: 2.24E+01 perimeter: 68.70
+Iter  54 J: 2.26E+01 perimeter: 69.06
+Iter  55 J: 2.27E+01 perimeter: 70.20
+Iter  56 J: 2.27E+01 perimeter: 70.38
+Iter  57 J: 2.26E+01 perimeter: 71.75
+Iter  58 J: 2.25E+01 perimeter: 70.90
+Iter  59 J: 2.23E+01 perimeter: 69.19
+Iter  60 J: 2.23E+01 perimeter: 69.39
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0060.png
+Iter  61 J: 2.25E+01 perimeter: 70.66
+Iter  62 J: 2.25E+01 perimeter: 71.30
+Iter  63 J: 2.25E+01 perimeter: 71.40
+Iter  64 J: 2.24E+01 perimeter: 72.94
+Iter  65 J: 2.24E+01 perimeter: 69.21
+Iter  66 J: 2.24E+01 perimeter: 69.15
+Iter  67 J: 2.24E+01 perimeter: 70.46
+Iter  68 J: 2.24E+01 perimeter: 71.35
+Iter  69 J: 2.24E+01 perimeter: 71.86
+Iter  70 J: 2.23E+01 perimeter: 71.28
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0070.png
+Iter  71 J: 2.24E+01 perimeter: 71.06
+Iter  72 J: 2.24E+01 perimeter: 71.50
+Iter  73 J: 2.23E+01 perimeter: 71.43
+Iter  74 J: 2.23E+01 perimeter: 71.83
+Iter  75 J: 2.24E+01 perimeter: 72.43
+Iter  76 J: 2.24E+01 perimeter: 73.10
+Iter  77 J: 2.23E+01 perimeter: 72.65
+Iter  78 J: 2.23E+01 perimeter: 72.12
+Iter  79 J: 2.23E+01 perimeter: 72.83
+Iter  80 J: 2.22E+01 perimeter: 69.59
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0080.png
+Iter  81 J: 2.23E+01 perimeter: 71.44
+Iter  82 J: 2.24E+01 perimeter: 73.22
+Iter  83 J: 2.23E+01 perimeter: 71.73
+Iter  84 J: 2.24E+01 perimeter: 73.55
+Iter  85 J: 2.23E+01 perimeter: 72.96
+Iter  86 J: 2.22E+01 perimeter: 71.16
+Iter  87 J: 2.23E+01 perimeter: 71.33
+Iter  88 J: 2.23E+01 perimeter: 72.89
+Iter  89 J: 2.23E+01 perimeter: 74.53
+Iter  90 J: 2.22E+01 perimeter: 71.80
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0090.png
+Iter  91 J: 2.22E+01 perimeter: 70.67
+Iter  92 J: 2.23E+01 perimeter: 72.39
+Iter  93 J: 2.22E+01 perimeter: 71.94
+Iter  94 J: 2.22E+01 perimeter: 72.54
+Iter  95 J: 2.22E+01 perimeter: 71.62
+Iter  96 J: 2.22E+01 perimeter: 72.45
+Iter  97 J: 2.22E+01 perimeter: 72.60
+Iter  98 J: 2.21E+01 perimeter: 71.34
+Iter  99 J: 2.22E+01 perimeter: 73.54
+Iter 100 J: 2.22E+01 perimeter: 72.71
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0100.png
+Iter 101 J: 2.21E+01 perimeter: 71.66
+Iter 102 J: 2.22E+01 perimeter: 73.54
+Iter 103 J: 2.21E+01 perimeter: 71.89
+Iter 104 J: 2.23E+01 perimeter: 74.18
+Iter 105 J: 2.22E+01 perimeter: 72.39
+Iter 106 J: 2.21E+01 perimeter: 72.31
+Iter 107 J: 2.22E+01 perimeter: 74.17
+Iter 108 J: 2.21E+01 perimeter: 72.34
+Iter 109 J: 2.21E+01 perimeter: 73.09
+Iter 110 J: 2.21E+01 perimeter: 72.21
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0110.png
+Iter 111 J: 2.21E+01 perimeter: 73.98
+Iter 112 J: 2.21E+01 perimeter: 72.36
+Iter 113 J: 2.21E+01 perimeter: 71.78
+Iter 114 J: 2.21E+01 perimeter: 73.70
+Iter 115 J: 2.21E+01 perimeter: 72.69
+Iter 116 J: 2.21E+01 perimeter: 72.49
+Iter 117 J: 2.22E+01 perimeter: 73.29
+Iter 118 J: 2.21E+01 perimeter: 73.15
+Iter 119 J: 2.21E+01 perimeter: 72.09
+Iter 120 J: 2.21E+01 perimeter: 73.54
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0120.png
+Iter 121 J: 2.22E+01 perimeter: 73.39
+Iter 122 J: 2.22E+01 perimeter: 74.30
+Iter 123 J: 2.20E+01 perimeter: 69.86
+Iter 124 J: 2.20E+01 perimeter: 70.80
+Iter 125 J: 2.21E+01 perimeter: 73.21
+Iter 126 J: 2.23E+01 perimeter: 76.02
+Iter 127 J: 2.22E+01 perimeter: 73.47
+Iter 128 J: 2.21E+01 perimeter: 72.83
+Iter 129 J: 2.21E+01 perimeter: 72.44
+Iter 130 J: 2.21E+01 perimeter: 73.70
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0130.png
+Iter 131 J: 2.21E+01 perimeter: 73.13
+Iter 132 J: 2.21E+01 perimeter: 73.63
+Iter 133 J: 2.21E+01 perimeter: 74.45
+Iter 134 J: 2.20E+01 perimeter: 72.01
+Iter 135 J: 2.21E+01 perimeter: 72.69
+Iter 136 J: 2.21E+01 perimeter: 75.38
+Iter 137 J: 2.21E+01 perimeter: 73.60
+Iter 138 J: 2.20E+01 perimeter: 72.51
+Iter 139 J: 2.20E+01 perimeter: 73.44
+Iter 140 J: 2.21E+01 perimeter: 74.24
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0140.png
+Iter 141 J: 2.20E+01 perimeter: 72.47
+Iter 142 J: 2.20E+01 perimeter: 72.97
+Iter 143 J: 2.21E+01 perimeter: 74.62
+Iter 144 J: 2.20E+01 perimeter: 73.67
+Iter 145 J: 2.20E+01 perimeter: 74.02
+Iter 146 J: 2.19E+01 perimeter: 69.68
+Iter 147 J: 2.19E+01 perimeter: 68.85
+Iter 148 J: 2.20E+01 perimeter: 72.92
+Iter 149 J: 2.21E+01 perimeter: 74.34
+Iter 150 J: 2.21E+01 perimeter: 74.15
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0150.png
+Iter 151 J: 2.21E+01 perimeter: 73.65
+Iter 152 J: 2.20E+01 perimeter: 72.51
+Iter 153 J: 2.21E+01 perimeter: 74.34
+Iter 154 J: 2.20E+01 perimeter: 74.03
+Iter 155 J: 2.19E+01 perimeter: 71.51
+Iter 156 J: 2.19E+01 perimeter: 70.81
+Iter 157 J: 2.20E+01 perimeter: 73.43
+Iter 158 J: 2.21E+01 perimeter: 75.28
+Iter 159 J: 2.21E+01 perimeter: 72.89
+Iter 160 J: 2.21E+01 perimeter: 73.57
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0160.png
+Iter 161 J: 2.21E+01 perimeter: 73.36
+Iter 162 J: 2.20E+01 perimeter: 70.53
+Iter 163 J: 2.21E+01 perimeter: 72.06
+Iter 164 J: 2.22E+01 perimeter: 73.73
+Iter 165 J: 2.22E+01 perimeter: 72.67
+Iter 166 J: 2.21E+01 perimeter: 73.38
+Iter 167 J: 2.20E+01 perimeter: 71.86
+Iter 168 J: 2.21E+01 perimeter: 72.12
+Iter 169 J: 2.22E+01 perimeter: 73.92
+Iter 170 J: 2.21E+01 perimeter: 74.08
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0170.png
+Iter 171 J: 2.21E+01 perimeter: 72.76
+Iter 172 J: 2.21E+01 perimeter: 73.34
+Iter 173 J: 2.21E+01 perimeter: 74.57
+Iter 174 J: 2.21E+01 perimeter: 72.22
+Iter 175 J: 2.21E+01 perimeter: 72.57
+Iter 176 J: 2.21E+01 perimeter: 72.64
+Iter 177 J: 2.21E+01 perimeter: 74.22
+Iter 178 J: 2.21E+01 perimeter: 73.25
+Iter 179 J: 2.21E+01 perimeter: 74.26
+Iter 180 J: 2.20E+01 perimeter: 72.04
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0180.png
+Iter 181 J: 2.20E+01 perimeter: 71.96
+Iter 182 J: 2.21E+01 perimeter: 73.41
+Iter 183 J: 2.21E+01 perimeter: 74.72
+Iter 184 J: 2.21E+01 perimeter: 73.63
+Iter 185 J: 2.20E+01 perimeter: 72.08
+Iter 186 J: 2.21E+01 perimeter: 73.67
+Iter 187 J: 2.21E+01 perimeter: 74.13
+Iter 188 J: 2.21E+01 perimeter: 72.66
+Iter 189 J: 2.21E+01 perimeter: 73.78
+Iter 190 J: 2.20E+01 perimeter: 73.33
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0190.png
+Iter 191 J: 2.21E+01 perimeter: 73.35
+Iter 192 J: 2.21E+01 perimeter: 75.57
+Iter 193 J: 2.21E+01 perimeter: 73.54
+Iter 194 J: 2.21E+01 perimeter: 74.06
+Iter 195 J: 2.20E+01 perimeter: 73.68
+Iter 196 J: 2.21E+01 perimeter: 74.97
+Iter 197 J: 2.20E+01 perimeter: 72.42
+Iter 198 J: 2.20E+01 perimeter: 72.93
+Iter 199 J: 2.21E+01 perimeter: 75.09
+Iter 200 J: 2.20E+01 perimeter: 73.97
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0200.png
+Iter 201 J: 2.20E+01 perimeter: 73.14
+Iter 202 J: 2.20E+01 perimeter: 73.12
+Iter 203 J: 2.21E+01 perimeter: 74.61
+Iter 204 J: 2.20E+01 perimeter: 74.11
+Iter 205 J: 2.20E+01 perimeter: 72.32
+Iter 206 J: 2.20E+01 perimeter: 72.77
+Iter 207 J: 2.21E+01 perimeter: 74.81
+Iter 208 J: 2.21E+01 perimeter: 74.58
+Iter 209 J: 2.21E+01 perimeter: 73.59
+Iter 210 J: 2.20E+01 perimeter: 73.07
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0210.png
+Iter 211 J: 2.20E+01 perimeter: 74.23
+Iter 212 J: 2.20E+01 perimeter: 74.02
+Iter 213 J: 2.20E+01 perimeter: 72.65
+Iter 214 J: 2.20E+01 perimeter: 73.63
+Iter 215 J: 2.21E+01 perimeter: 75.20
+Iter 216 J: 2.21E+01 perimeter: 74.48
+Iter 217 J: 2.19E+01 perimeter: 71.02
+Iter 218 J: 2.19E+01 perimeter: 70.83
+Iter 219 J: 2.20E+01 perimeter: 72.84
+Iter 220 J: 2.21E+01 perimeter: 74.08
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0220.png
+Iter 221 J: 2.21E+01 perimeter: 74.11
+Iter 222 J: 2.21E+01 perimeter: 74.48
+Iter 223 J: 2.20E+01 perimeter: 73.29
+Iter 224 J: 2.20E+01 perimeter: 72.99
+Iter 225 J: 2.20E+01 perimeter: 73.94
+Iter 226 J: 2.21E+01 perimeter: 75.70
+Iter 227 J: 2.20E+01 perimeter: 74.30
+Iter 228 J: 2.19E+01 perimeter: 71.63
+Iter 229 J: 2.19E+01 perimeter: 71.91
+Iter 230 J: 2.20E+01 perimeter: 74.53
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0230.png
+Iter 231 J: 2.20E+01 perimeter: 74.61
+Iter 232 J: 2.20E+01 perimeter: 72.55
+Iter 233 J: 2.20E+01 perimeter: 74.03
+Iter 234 J: 2.21E+01 perimeter: 73.79
+Iter 235 J: 2.20E+01 perimeter: 74.36
+Iter 236 J: 2.20E+01 perimeter: 74.14
+Iter 237 J: 2.19E+01 perimeter: 72.29
+Iter 238 J: 2.20E+01 perimeter: 73.00
+Iter 239 J: 2.21E+01 perimeter: 75.74
+Iter 240 J: 2.21E+01 perimeter: 74.89
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0240.png
+Iter 241 J: 2.20E+01 perimeter: 71.77
+Iter 242 J: 2.20E+01 perimeter: 72.09
+Iter 243 J: 2.20E+01 perimeter: 74.58
+Iter 244 J: 2.20E+01 perimeter: 73.85
+Iter 245 J: 2.20E+01 perimeter: 73.95
+Iter 246 J: 2.20E+01 perimeter: 73.46
+Iter 247 J: 2.20E+01 perimeter: 73.78
+Iter 248 J: 2.20E+01 perimeter: 74.73
+Iter 249 J: 2.19E+01 perimeter: 71.98
+Iter 250 J: 2.19E+01 perimeter: 72.85
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0250.png
+Iter 251 J: 2.21E+01 perimeter: 75.50
+Iter 252 J: 2.21E+01 perimeter: 74.61
+Iter 253 J: 2.20E+01 perimeter: 73.11
+Iter 254 J: 2.20E+01 perimeter: 73.87
+Iter 255 J: 2.20E+01 perimeter: 75.42
+Iter 256 J: 2.20E+01 perimeter: 73.31
+Iter 257 J: 2.20E+01 perimeter: 73.58
+Iter 258 J: 2.20E+01 perimeter: 74.80
+Iter 259 J: 2.20E+01 perimeter: 72.94
+Iter 260 J: 2.20E+01 perimeter: 73.46
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0260.png
+Iter 261 J: 2.20E+01 perimeter: 74.22
+Iter 262 J: 2.20E+01 perimeter: 74.55
+Iter 263 J: 2.19E+01 perimeter: 71.79
+Iter 264 J: 2.19E+01 perimeter: 72.06
+Iter 265 J: 2.20E+01 perimeter: 73.65
+Iter 266 J: 2.21E+01 perimeter: 75.06
+Iter 267 J: 2.21E+01 perimeter: 74.59
+Iter 268 J: 2.20E+01 perimeter: 73.76
+Iter 269 J: 2.19E+01 perimeter: 73.15
+Iter 270 J: 2.20E+01 perimeter: 73.68
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0270.png
+Iter 271 J: 2.20E+01 perimeter: 75.20
+Iter 272 J: 2.20E+01 perimeter: 72.32
+Iter 273 J: 2.20E+01 perimeter: 72.70
+Iter 274 J: 2.21E+01 perimeter: 75.70
+Iter 275 J: 2.20E+01 perimeter: 74.07
+Iter 276 J: 2.20E+01 perimeter: 74.31
+Iter 277 J: 2.20E+01 perimeter: 74.93
+Iter 278 J: 2.19E+01 perimeter: 70.75
+Iter 279 J: 2.19E+01 perimeter: 71.01
+Iter 280 J: 2.21E+01 perimeter: 73.94
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0280.png
+Iter 281 J: 2.21E+01 perimeter: 75.32
+Iter 282 J: 2.21E+01 perimeter: 71.97
+Iter 283 J: 2.21E+01 perimeter: 72.38
+Iter 284 J: 2.21E+01 perimeter: 72.97
+Iter 285 J: 2.21E+01 perimeter: 74.57
+Iter 286 J: 2.21E+01 perimeter: 74.23
+Iter 287 J: 2.20E+01 perimeter: 72.67
+Iter 288 J: 2.20E+01 perimeter: 72.46
+Iter 289 J: 2.21E+01 perimeter: 74.74
+Iter 290 J: 2.20E+01 perimeter: 75.39
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0290.png
+Iter 291 J: 2.19E+01 perimeter: 72.91
+Iter 292 J: 2.20E+01 perimeter: 73.70
+Iter 293 J: 2.20E+01 perimeter: 75.18
+Iter 294 J: 2.19E+01 perimeter: 71.61
+Iter 295 J: 2.20E+01 perimeter: 72.08
+Iter 296 J: 2.21E+01 perimeter: 75.03
+Iter 297 J: 2.21E+01 perimeter: 75.05
+Iter 298 J: 2.20E+01 perimeter: 72.87
+Iter 299 J: 2.20E+01 perimeter: 73.44
+Iter 300 J: 2.21E+01 perimeter: 74.36
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0300.png
+Iter 301 J: 2.21E+01 perimeter: 74.13
+Iter 302 J: 2.20E+01 perimeter: 73.29
+Iter 303 J: 2.20E+01 perimeter: 74.16
+Iter 304 J: 2.20E+01 perimeter: 75.34
+Iter 305 J: 2.19E+01 perimeter: 72.68
+Iter 306 J: 2.20E+01 perimeter: 73.02
+Iter 307 J: 2.21E+01 perimeter: 75.31
+Iter 308 J: 2.21E+01 perimeter: 75.03
+Iter 309 J: 2.20E+01 perimeter: 72.93
+Iter 310 J: 2.20E+01 perimeter: 74.06
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0310.png
+Iter 311 J: 2.20E+01 perimeter: 75.21
+Iter 312 J: 2.19E+01 perimeter: 73.45
+Iter 313 J: 2.20E+01 perimeter: 73.84
+Iter 314 J: 2.19E+01 perimeter: 73.93
+Iter 315 J: 2.20E+01 perimeter: 74.10
+Iter 316 J: 2.20E+01 perimeter: 74.42
+Iter 317 J: 2.19E+01 perimeter: 74.41
+Iter 318 J: 2.19E+01 perimeter: 72.56
+Iter 319 J: 2.19E+01 perimeter: 73.19
+Iter 320 J: 2.20E+01 perimeter: 75.21
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0320.png
+Iter 321 J: 2.20E+01 perimeter: 74.04
+Iter 322 J: 2.21E+01 perimeter: 76.13
+Iter 323 J: 2.21E+01 perimeter: 74.84
+Iter 324 J: 2.19E+01 perimeter: 72.77
+Iter 325 J: 2.19E+01 perimeter: 72.71
+Iter 326 J: 2.20E+01 perimeter: 74.47
+Iter 327 J: 2.19E+01 perimeter: 74.10
+Iter 328 J: 2.19E+01 perimeter: 74.22
+Iter 329 J: 2.19E+01 perimeter: 74.38
+Iter 330 J: 2.19E+01 perimeter: 73.89
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0330.png
+Iter 331 J: 2.19E+01 perimeter: 74.67
+Iter 332 J: 2.18E+01 perimeter: 73.34
+Iter 333 J: 2.19E+01 perimeter: 74.21
+Iter 334 J: 2.20E+01 perimeter: 75.28
+Iter 335 J: 2.20E+01 perimeter: 73.88
+Iter 336 J: 2.19E+01 perimeter: 75.02
+Iter 337 J: 2.19E+01 perimeter: 72.98
+Iter 338 J: 2.19E+01 perimeter: 73.25
+Iter 339 J: 2.19E+01 perimeter: 75.04
+Iter 340 J: 2.19E+01 perimeter: 73.88
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0340.png
+Iter 341 J: 2.19E+01 perimeter: 74.68
+Iter 342 J: 2.18E+01 perimeter: 73.83
+Iter 343 J: 2.19E+01 perimeter: 74.76
+Iter 344 J: 2.18E+01 perimeter: 73.74
+Iter 345 J: 2.18E+01 perimeter: 74.84
+Iter 346 J: 2.18E+01 perimeter: 72.84
+Iter 347 J: 2.18E+01 perimeter: 73.77
+Iter 348 J: 2.19E+01 perimeter: 75.15
+Iter 349 J: 2.19E+01 perimeter: 73.58
+Iter 350 J: 2.19E+01 perimeter: 74.28
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/design_epoch_0350.png
+
+Optimization done in 97.0 s
+Saved /home/dubin/TOMAS/output/wideZ_biffurcated/convergence.png

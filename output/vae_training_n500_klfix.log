@@ -1,0 +1,16 @@
+shape_params: (500, 8), c00/c11: (500, 1), area: (1, 500), perim: (1, 500)
+normalized data: 500 samples, 12 features
+Training VAE for 17000 epochs (lr=0.008, kl=1e-07) ...
+iter 0 	 recon_loss 	 8.04E-02 	 kl_loss 9.38E-01 	 net_loss 8.04E-02
+iter 1700 	 recon_loss 	 3.68E-03 	 kl_loss 3.70E+01 	 net_loss 3.68E-03
+iter 3400 	 recon_loss 	 1.75E-03 	 kl_loss 3.97E+01 	 net_loss 1.75E-03
+iter 5100 	 recon_loss 	 1.21E-03 	 kl_loss 3.92E+01 	 net_loss 1.22E-03
+iter 6800 	 recon_loss 	 9.71E-04 	 kl_loss 3.90E+01 	 net_loss 9.75E-04
+iter 8500 	 recon_loss 	 4.86E-04 	 kl_loss 4.12E+01 	 net_loss 4.90E-04
+iter 10200 	 recon_loss 	 4.39E-04 	 kl_loss 3.71E+01 	 net_loss 4.43E-04
+iter 11900 	 recon_loss 	 4.10E-04 	 kl_loss 3.58E+01 	 net_loss 4.14E-04
+iter 13600 	 recon_loss 	 2.81E-04 	 kl_loss 3.64E+01 	 net_loss 2.85E-04
+iter 15300 	 recon_loss 	 3.29E-04 	 kl_loss 3.33E+01 	 net_loss 3.33E-04
+Saved /home/dubin/TOMAS/output/vae_loss_history.png
+Saved normalisation info -> /home/dubin/TOMAS/vae/nomalization.pt
+Saved /home/dubin/TOMAS/output/vae_latent_space.png

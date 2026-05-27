@@ -1,6 +1,6 @@
 OPTIMIZATION:
   num_epochs: 17000
-  kl_factor: 1.e-7
+  kl_factor: 1.e-5
   lr: 8.e-3
   save_file: './vae_decoder_net.pkl'
 NETWORK:

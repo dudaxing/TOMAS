@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PYTHONNOUSERSITE=1 /home/dubin/miniconda3/envs/tomas-wsl/bin/python scripts/train_vae.py --retrain --lr 4e-3)",
+      "Bash(tee output/vae_training_n500_klfix_kl1e5_lr4e3.log)",
+      "Bash(tee output/vae_training_n500_klfix_kl1e5_filt.log)"
+    ]
+  }
+}
