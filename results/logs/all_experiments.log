@@ -1,0 +1,91 @@
+===== 3.1 latent space (M*, Fig7, Fig10, Table1) =====
+     C    in-data    22.94    25.58 512850.21   507.38
+     D    in-data    46.86    55.19   370.63    93.63
+     E        new    53.06   123.64     2.94     2.87
+     F        new     0.74    11.73     5.19     4.30
+     G        new     8.77    44.07     8.01     9.01
+     H        new    53.88    36.99     9.21     8.08
+
+Saved latent-space results to /mnt/e/Working/reproduceTOMAS/scripts/../results/latent
+
+===== 3.4 diffuser (Fig13) =====
+  iter 150  J=31.5353  contact_area=58.615
+  iter 175  J=30.5336  contact_area=60.112
+  iter 200  J=28.9619  contact_area=58.868
+  iter 225  J=28.8399  contact_area=59.124
+  iter 250  J=28.6109  contact_area=59.435
+  iter 275  J=29.8280  contact_area=59.867
+  iter 300  J=28.1870  contact_area=59.193
+[diffuser_3p4] final power=28.350 contact_area=60.052 (26.6s)  -> /mnt/e/Working/reproduceTOMAS/scripts/../results/to/diffuser_3p4
+
+===== 3.3b bent pipe perimeter=75.69 (Fig12b) =====
+  iter 150  J=6.6891  contact_area=76.515
+  iter 175  J=6.6548  contact_area=75.325
+  iter 200  J=6.7113  contact_area=75.751
+  iter 225  J=6.6082  contact_area=74.029
+  iter 250  J=6.5922  contact_area=76.032
+  iter 275  J=6.5890  contact_area=74.444
+  iter 300  J=6.5688  contact_area=75.307
+[bent_perim_3p3b] final power=6.580 contact_area=76.870 (356.8s)  -> /mnt/e/Working/reproduceTOMAS/scripts/../results/to/bent_perim_3p3b
+
+===== 3.3a bent pipe volume=0.75 (Fig12a) =====
+  iter 150  J=7.6015  contact_area=154.491
+  iter 175  J=7.6593  contact_area=157.700
+  iter 200  J=7.6927  contact_area=161.113
+  iter 225  J=7.7323  contact_area=163.784
+  iter 250  J=7.7613  contact_area=163.708
+  iter 275  J=7.9398  contact_area=169.864
+  iter 300  J=7.9740  contact_area=173.248
+[bent_vol_3p3a] final power=7.989 contact_area=173.271 (339.4s)  -> /mnt/e/Working/reproduceTOMAS/scripts/../results/to/bent_vol_3p3a
+
+===== 3.2 bent pipe orientation-only (Fig11) =====
+  iter 150  J=7.1351  contact_area=34.364
+  iter 175  J=7.1340  contact_area=34.364
+  iter 200  J=7.1336  contact_area=34.364
+  iter 225  J=7.1333  contact_area=34.364
+  iter 250  J=7.1329  contact_area=34.364
+  iter 275  J=7.1329  contact_area=34.364
+  iter 300  J=7.1326  contact_area=34.364
+[bent_orient_3p2] final power=7.133 contact_area=34.364 (338.5s)  -> /mnt/e/Working/reproduceTOMAS/scripts/../results/to/bent_orient_3p2
+
+===== 3.7 bifurcated pipe perim=70 (Fig16) =====
+  iter 200  J=21.9066  contact_area=69.180
+  iter 225  J=21.8641  contact_area=69.195
+  iter 250  J=21.9250  contact_area=69.974
+  iter 275  J=21.7983  contact_area=69.271
+  iter 300  J=21.8688  contact_area=69.395
+  iter 325  J=21.7837  contact_area=69.793
+  iter 350  J=21.7389  contact_area=68.329
+[bifurcated_3p7] final power=21.769 contact_area=69.396 (32.7s)  -> /mnt/e/Working/reproduceTOMAS/scripts/../results/to/bifurcated_3p7
+
+===== 3.5 Pareto sweep (Fig14) =====
+  iter 200  J=24.4950  contact_area=79.273
+  iter 225  J=25.0133  contact_area=79.888
+  iter 250  J=24.8277  contact_area=79.429
+  iter 275  J=24.6964  contact_area=79.655
+  iter 300  J=24.4485  contact_area=79.978
+[pareto_80] final power=24.556 contact_area=79.432 (25.8s)  -> /mnt/e/Working/reproduceTOMAS/scripts/../results/pareto/pareto_80
+  -> contact_area=79.43 power=24.556
+Saved Pareto results to /mnt/e/Working/reproduceTOMAS/scripts/../results/pareto
+
+===== validate bent-pipe perimeter design (3.3) =====
+[Parallel(n_jobs=-1)]: Done 128 tasks      | elapsed:   30.0s
+[Parallel(n_jobs=-1)]: Done 848 tasks      | elapsed:  1.2min
+[Parallel(n_jobs=-1)]: Done 1200 out of 1200 | elapsed:  1.7min finished
+
+==== Decoder vs True (global FEA / homogenization) ====
+  dissipated power : decoder=6.580   true=6.419   err=2.51%
+  contact area     : decoder=76.870   true=72.585   err=5.90%
+Saved results/to/bent_perim_3p3b/validation.json
+
+===== validate diffuser pareto-50 design (3.5) =====
+[Parallel(n_jobs=-1)]: Done 162 tasks      | elapsed:   21.4s
+[Parallel(n_jobs=-1)]: Done 208 out of 225 | elapsed:   26.2s remaining:    2.1s
+[Parallel(n_jobs=-1)]: Done 225 out of 225 | elapsed:   26.7s finished
+
+==== Decoder vs True (global FEA / homogenization) ====
+  dissipated power : decoder=32.205   true=35.521   err=9.34%
+  contact area     : decoder=50.343   true=49.107   err=2.52%
+Saved results/pareto/pareto_50/validation.json
+
+ALL EXPERIMENTS DONE

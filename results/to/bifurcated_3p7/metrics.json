@@ -1,0 +1,13 @@
+{
+  "tag": "bifurcated_3p7",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 21.76885021657374,
+  "final_contact_area": 69.39564629339976,
+  "max_velocity_magnitude": 1.8436555657519147,
+  "orientation_only": false,
+  "runtime_sec": 32.68432879447937
+}

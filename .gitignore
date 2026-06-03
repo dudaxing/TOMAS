@@ -1,0 +1,19 @@
+# Extracted text of the copyrighted paper — do not distribute
+paper_text.txt
+
+# Python caches / build
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# Virtual environments (the WSL venv lives in ~/tomas-venv, not here)
+.venv/
+venv/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+
+# Local Claude Code harness config (not part of the reproduction)
+.claude/
