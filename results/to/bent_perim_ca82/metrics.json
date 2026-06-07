@@ -1,0 +1,13 @@
+{
+  "tag": "bent_perim_ca82",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 82.0,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 6.991015999053781,
+  "final_contact_area": 81.55313658699174,
+  "max_velocity_magnitude": 0.9824080124226242,
+  "orientation_only": false,
+  "runtime_sec": 426.95043325424194
+}

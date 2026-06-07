@@ -21,3 +21,10 @@ Thumbs.db
 # Verbose run logs and intermediate optimizer checkpoints (regenerable)
 results/logs/
 **/net.pt
+
+# Feishu/Lark CLI install artifacts (not part of the TOMAS reproduction)
+.agents/
+skills-lock.json
+
+# One-off PR helper from an earlier session (not part of the reproduction)
+tools/create_pr.py

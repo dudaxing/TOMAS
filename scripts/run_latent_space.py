@@ -43,7 +43,7 @@ CXY_CONST = 1e-5
 
 
 def load_vae(vae_dir):
-    p = network.VAE_Params(input_dim=10, encoder_hidden_dim=600, latent_dim=2,
+    p = network.VAE_Params(input_dim=12, encoder_hidden_dim=600, latent_dim=2,
                            decoder_hidden_dim=600)
     vae = network.VariationalAutoencoder(vae_params=p)
     vae.encoder.is_training = False
@@ -103,18 +103,52 @@ def main():
     with torch.no_grad():
         out = decode(vae, Z, mx, mn).numpy()
     vf = out[:, F.shape_area.value]
+    perim_dec = out[:, F.shape_perim.value]
     trace = out[:, F.homog_c00.value] + out[:, F.homog_c11.value]
     mask = np.abs(vf - args.target_vf) <= 0.001
-    print(f"[3.1] {mask.sum()} latent points with vf={args.target_vf}+/-0.001")
+    print(f"[3.1] {mask.sum()} latent points with decoded vf={args.target_vf}+/-0.001")
     idx_pool = np.where(mask)[0]
-    best = idx_pool[np.argmax(trace[idx_pool])]
+    # Rank by decoded trace(C) (descending) and verify SELF-CONSISTENCY. A real
+    # 25%-solid super-shape must have a non-trivial perimeter; picking the
+    # max-trace point purely from decoder outputs (the old behavior) landed on a
+    # decoder artifact -- decoded vf=0.25 but the reconstructed shape had a
+    # near-zero contact area (perimeter), which is geometrically impossible and
+    # made experiment 3.2 not comparable to the paper. We now reconstruct each
+    # top candidate's super-shape, re-homogenize it with the ported solver, and
+    # keep only those whose TRUE solid fraction and perimeter are physical, then
+    # pick the highest TRUE trace(C).
+    # Re-homogenize every candidate's reconstructed super-shape and keep only
+    # the physically self-consistent ones (true solid fraction near 0.25 with a
+    # real, non-trivial perimeter), then select the one with the highest TRUE
+    # trace(C). This (a) rejects decoder artifacts and (b) selects by the
+    # genuine re-homogenized permeability rather than the decoder's prediction,
+    # which over-estimates C at the high-permeability tail.
+    order = idx_pool[np.argsort(-trace[idx_pool])]
+    best, best_true, best_ttrace = None, None, -np.inf
+    for idx in order:
+        if perim_dec[idx] < 0.10:          # decoder itself reports ~no boundary
+            continue
+        truth = homogenize_shape(np.concatenate([out[idx, :6], [CXY_CONST, CXY_CONST]]))
+        if truth is None:
+            continue
+        tc00, tc11, tarea, tperim = truth
+        if 0.18 <= tarea <= 0.32 and tperim > 0.15 and tc00 > 0 and tc11 > 0:
+            if tc00 + tc11 > best_ttrace:
+                best, best_true, best_ttrace = idx, (tc00, tc11, tarea, tperim), tc00 + tc11
+    if best is None:
+        print("  [warn] no self-consistent vf=0.25 candidate; "
+              "falling back to max decoded trace(C).")
+        best = order[0]
     z_star = Z[best].numpy()
     mstr_star = out[best, :6]
     print(f"  M* latent z=({z_star[0]:.4f}, {z_star[1]:.4f})")
     print(f"  M* shape params a={mstr_star[0]:.4f} b={mstr_star[1]:.4f} m={mstr_star[2]:.4f} "
           f"n1={mstr_star[3]:.4f} n2={mstr_star[4]:.4f} n3={mstr_star[5]:.4f}")
-    print(f"  M* C00={out[best,F.homog_c00.value]:.4e} C11={out[best,F.homog_c11.value]:.4e} "
-          f"vf={vf[best]:.4f}")
+    print(f"  M* decoded C00={out[best,F.homog_c00.value]:.4e} C11={out[best,F.homog_c11.value]:.4e} "
+          f"vf={vf[best]:.4f} perim={perim_dec[best]:.4f}")
+    if best_true is not None:
+        print(f"  M* TRUE (re-homogenized) C00={best_true[0]:.4e} C11={best_true[1]:.4e} "
+              f"vf={best_true[2]:.4f} perim={best_true[3]:.4f}")
     np.save(os.path.join(args.out_dir, "M_star.npy"),
             {"z": z_star, "shape_params": mstr_star})
 
