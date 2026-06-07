@@ -1,7 +1,7 @@
 """Headless VAE training (Algorithm 2) — scripted from notebooks/train_vae_main.ipynb.
 
-Trains the variational auto-encoder on the 12-feature micro-structure dataset
-(8 shape params + C00 + C11 + perimeter + area) and saves:
+Trains the variational auto-encoder on the paper's 10-feature micro-structure
+dataset (6 shape params + C00 + C11 + perimeter + area) and saves:
   * ``TOMAS/vae/vae_net.pt``       - trained VAE weights
   * ``TOMAS/vae/nomalization.pt``  - {'max_feature','min_feature'} used to
                                      de-normalize the decoder output.
@@ -45,6 +45,13 @@ def main():
     ap.add_argument("--force", action="store_true", help="retrain even if weights exist")
     ap.add_argument("--epochs", type=int, default=None, help="override num_epochs (smoke test)")
     ap.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])
+    ap.add_argument("--min-vf", type=float, default=0.02,
+                    help="drop training samples with solid volume fraction below this")
+    ap.add_argument("--min-perim", type=float, default=0.05,
+                    help="drop training samples with perimeter below this")
+    ap.add_argument("--lr-min", type=float, default=None,
+                    help="cosine LR floor; set equal to --lr/config lr for a FLAT schedule "
+                         "(overrides vae_config lr_min without editing it)")
     args = ap.parse_args()
 
     with open(args.datagen_config) as f:
@@ -64,9 +71,21 @@ def main():
     c00, c11 = homog["c00"].reshape(-1, 1), homog["c11"].reshape(-1, 1)
     area = area.reshape(-1, 1)
     perim = perim.reshape(-1, 1)
-    print(f"Loaded dataset #{dnum}: {shape_params.shape[0]} samples")
+    n_raw = shape_params.shape[0]
 
-    # 12 features: [a,b,m,n1,n2,n3,cx,cy] + C00 + C11 + perim + area
+    # Drop degenerate micro-structures (near-empty / collapsed cells) that
+    # otherwise dominate the high-permeability extreme and distort the 2-D
+    # latent space. Only affects VAE training data (TO uses the decoder).
+    keep = ((area[:, 0] >= args.min_vf) & (perim[:, 0] >= args.min_perim) &
+            np.isfinite(c00[:, 0]) & np.isfinite(c11[:, 0]) &
+            (c00[:, 0] > 0) & (c11[:, 0] > 0))
+    shape_params, c00, c11, area, perim = (shape_params[keep], c00[keep],
+                                           c11[keep], area[keep], perim[keep])
+    print(f"Loaded dataset #{dnum}: kept {int(keep.sum())}/{n_raw} samples "
+          f"(dropped {n_raw - int(keep.sum())} with vf<{args.min_vf} or perim<{args.min_perim})")
+
+    # 10 features (paper): [a,b,m,n1,n2,n3] + C00 + C11 + perim + area.
+    # The near-constant center coords (cx,cy = shape_params[:,6:8]) are dropped.
     mstr_data = torch.tensor(np.hstack((
         shape_params, c00, c11, perim, area))).double()
     normalization_types = ([data_preprocess.NomalizationType.LINEAR] * 8 +
@@ -75,7 +94,7 @@ def main():
     normalized, max_feature, min_feature = data_preprocess.stack_train_data(
         mstr_data, normalization_types)
     num_samples, num_features = normalized.shape
-    assert num_features == 12
+    assert num_features == 12, num_features
 
     net_cfg = vae_cfg["NETWORK"]
     opt_cfg = vae_cfg["OPTIMIZATION"]
@@ -95,7 +114,9 @@ def main():
         train_vae.train_autoencoder(
             vae=vae_net, train_data=normalized.to(device),
             num_epochs=num_epochs, kl_factor=opt_cfg["kl_factor"],
-            lr=opt_cfg["lr"], save_file=weights_file, print_every=max(1, num_epochs // 20))
+            lr=opt_cfg["lr"], save_file=weights_file,
+            print_every=max(1, num_epochs // 20),
+            lr_min=(args.lr_min if args.lr_min is not None else opt_cfg.get("lr_min")))
         # Re-save a CPU state_dict so the (CPU-based) TO step loads it portably.
         vae_net.to("cpu")
         torch.save(vae_net.state_dict(), weights_file)

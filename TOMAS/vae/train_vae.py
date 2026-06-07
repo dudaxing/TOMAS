@@ -7,7 +7,8 @@ def train_autoencoder(vae: network.VariationalAutoencoder,
                       kl_factor: float,
                       lr: float,
                       save_file: str,
-                      print_every: int = 500)->dict:
+                      print_every: int = 500,
+                      lr_min: float = None)->dict:
   """Train the variational autoencoder.
 
   Args:
@@ -23,6 +24,10 @@ def train_autoencoder(vae: network.VariationalAutoencoder,
     dict: Dictionary containing the training history.
   """
   opt = torch.optim.Adam(vae.parameters(), lr)
+  # Optional cosine LR decay (lr -> lr_min). Default (None) keeps the original
+  # constant-lr behaviour, so this stays backward-compatible with the notebook.
+  scheduler = (torch.optim.lr_scheduler.CosineAnnealingLR(
+      opt, T_max=num_epochs, eta_min=lr_min) if lr_min is not None else None)
   convg_history = {'recon_loss':[], 'kl_loss':[], 'loss':[]}
   vae.encoder.is_training = True
   for epoch in range(num_epochs):
@@ -36,6 +41,8 @@ def train_autoencoder(vae: network.VariationalAutoencoder,
     convg_history['kl_loss'].append(kl_loss.item())
     convg_history['loss'].append(loss.item())
     opt.step()
+    if scheduler is not None:
+      scheduler.step()
     if epoch%print_every == 0:
       print(f'iter {epoch:d} \t recon_loss \t {recon_loss.item():.2E}'
             f' \t kl_loss {kl_loss.item():.2E} \t net_loss {loss.item():.2E}')

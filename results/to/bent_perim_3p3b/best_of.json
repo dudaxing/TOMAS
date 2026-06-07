@@ -1,0 +1,26 @@
+{
+  "selected_seed": 77,
+  "runs": [
+    {
+      "seed": 77,
+      "dir": "/mnt/e/Working/reproduceTOMAS/scripts/../results/to/bent_perim_3p3b_seed77",
+      "true_power": 6.418613811413465,
+      "decoder_power": 6.579993629570965,
+      "contact_area": 76.8696348819898
+    },
+    {
+      "seed": 1,
+      "dir": "/mnt/e/Working/reproduceTOMAS/scripts/../results/to/bent_perim_3p3b_seed1",
+      "true_power": 7.241628098198216,
+      "decoder_power": 7.307330861006078,
+      "contact_area": 76.62860537725624
+    },
+    {
+      "seed": 2,
+      "dir": "/mnt/e/Working/reproduceTOMAS/scripts/../results/to/bent_perim_3p3b_seed2",
+      "true_power": 10.551382689013833,
+      "decoder_power": 10.106748498783858,
+      "contact_area": 75.63241761035178
+    }
+  ]
+}

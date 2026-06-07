@@ -39,10 +39,11 @@ NORM = ([data_preprocess.NomalizationType.LINEAR] * 8 +
         [data_preprocess.NomalizationType.LOG] * 2 +
         [data_preprocess.NomalizationType.LINEAR] * 2)
 F = data_preprocess.VAE_Fields
+CXY_CONST = 1e-5
 
 
 def load_vae(vae_dir):
-    p = network.VAE_Params(input_dim=12, encoder_hidden_dim=600, latent_dim=2,
+    p = network.VAE_Params(input_dim=10, encoder_hidden_dim=600, latent_dim=2,
                            decoder_hidden_dim=600)
     vae = network.VariationalAutoencoder(vae_params=p)
     vae.encoder.is_training = False
@@ -54,6 +55,16 @@ def load_vae(vae_dir):
 
 def decode(vae, z, mx, mn):
     out = data_preprocess.stack_vae_output(vae.decoder(z), mx, mn, NORM)
+    return out
+
+
+def normalize_with(data, mx, mn):
+    """Normalize using the *training* feature min/max (from nomalization.pt) so
+    encodings stay in-distribution. LOG features are log10-scaled first."""
+    out = data.clone()
+    for i, nt in enumerate(NORM):
+        col = torch.log10(data[:, i]) if nt == data_preprocess.NomalizationType.LOG else data[:, i]
+        out[:, i] = (col - mn[i]) / (mx[i] - mn[i])
     return out
 
 
@@ -98,7 +109,7 @@ def main():
     idx_pool = np.where(mask)[0]
     best = idx_pool[np.argmax(trace[idx_pool])]
     z_star = Z[best].numpy()
-    mstr_star = out[best, :8]
+    mstr_star = out[best, :6]
     print(f"  M* latent z=({z_star[0]:.4f}, {z_star[1]:.4f})")
     print(f"  M* shape params a={mstr_star[0]:.4f} b={mstr_star[1]:.4f} m={mstr_star[2]:.4f} "
           f"n1={mstr_star[3]:.4f} n2={mstr_star[4]:.4f} n3={mstr_star[5]:.4f}")
@@ -122,9 +133,14 @@ def main():
     h = scipy.io.loadmat(os.path.join(args.data_dir, f"homogen_data_{dnum}.mat"))
     area = scipy.io.loadmat(os.path.join(args.data_dir, f"mstr_area_{dnum}.mat"))["mstr_area"]
     perim = scipy.io.loadmat(os.path.join(args.data_dir, f"mstr_perim_{dnum}.mat"))["mstr_perim"]
-    data = torch.tensor(np.hstack((sp, h["c00"].reshape(-1, 1), h["c11"].reshape(-1, 1),
-                                   perim.reshape(-1, 1), area.reshape(-1, 1)))).double()
-    normalized, mx2, mn2 = data_preprocess.stack_train_data(data, NORM)
+    # Match the training filter + normalization so the encodings are in-distribution.
+    c00v, c11v = h["c00"].reshape(-1, 1), h["c11"].reshape(-1, 1)
+    areav, perimv = area.reshape(-1, 1), perim.reshape(-1, 1)
+    keep = ((areav[:, 0] >= 0.02) & (perimv[:, 0] >= 0.05) &
+            (c00v[:, 0] > 0) & (c11v[:, 0] > 0))
+    sp, c00v, c11v, areav, perimv = sp[keep], c00v[keep], c11v[keep], areav[keep], perimv[keep]
+    data = torch.tensor(np.hstack((sp, c00v, c11v, perimv, areav))).double()
+    normalized = normalize_with(data, mx, mn)
     with torch.no_grad():
         zdata = vae.encoder(normalized).numpy()
     plt.figure(figsize=(5, 4))
@@ -142,11 +158,13 @@ def main():
     # in-dataset points (encode -> decode), compare to dataset truth
     for k, i in enumerate(rng.choice(len(sp), 4, replace=False)):
         with torch.no_grad():
-            rec = decode(vae, vae.encoder(normalized[i:i + 1]), mx2, mn2).numpy()[0]
+            rec = decode(vae, vae.encoder(normalized[i:i + 1]), mx, mn).numpy()[0]
         t = data[i].numpy()
         e = lambda a, b: 100.0 * abs(a - b) / (abs(b) + 1e-12)
-        row = [e(rec[F.homog_c00.value], t[8]), e(rec[F.homog_c11.value], t[9]),
-               e(rec[F.shape_area.value], t[11]), e(rec[F.shape_perim.value], t[10])]
+        row = [e(rec[F.homog_c00.value], t[F.homog_c00.value]),
+               e(rec[F.homog_c11.value], t[F.homog_c11.value]),
+               e(rec[F.shape_area.value], t[F.shape_area.value]),
+               e(rec[F.shape_perim.value], t[F.shape_perim.value])]
         rows.append(("in", row))
         print(f"{chr(65+k):>6} {'in-data':>10} {row[0]:8.2f} {row[1]:8.2f} {row[2]:8.2f} {row[3]:8.2f}")
     # new decoder-generated points: decode -> rebuild shape -> homogenize -> compare
@@ -154,7 +172,7 @@ def main():
         z = torch.tensor(rng.uniform(-2, 2, (1, 2))).double()
         with torch.no_grad():
             rec = decode(vae, z, mx, mn).numpy()[0]
-        truth = homogenize_shape(rec[:8])
+        truth = homogenize_shape(np.concatenate([rec[:6], [CXY_CONST, CXY_CONST]]))
         if truth is None:
             continue
         tc00, tc11, tarea, tperim = truth

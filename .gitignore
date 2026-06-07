@@ -17,3 +17,7 @@ Thumbs.db
 
 # Local Claude Code harness config (not part of the reproduction)
 .claude/
+
+# Verbose run logs and intermediate optimizer checkpoints (regenerable)
+results/logs/
+**/net.pt

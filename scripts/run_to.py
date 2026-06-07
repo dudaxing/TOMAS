@@ -41,9 +41,10 @@ import vae.data_preprocess as vae_data_prep      # noqa: E402
 NORM_TYPES = ([vae_data_prep.NomalizationType.LINEAR] * 8 +
               [vae_data_prep.NomalizationType.LOG] * 2 +
               [vae_data_prep.NomalizationType.LINEAR] * 2)
+CXY_CONST = 1e-5  # near-constant super-shape center coords (dropped from the 10-D VAE)
 
 
-def build(config_data, vae_dir):
+def build(config_data, vae_dir, seed=77):
     bb = fluid_mesher.BoundingBox(**{k: config_data["BOUNDING_BOX"][k]
                                      for k in ("x_min", "x_max", "y_min", "y_max")})
     mesh = fluid_mesher.fluid_mesher(config_data["MESH"]["nelx"],
@@ -70,7 +71,7 @@ def build(config_data, vae_dir):
         output_dim=config_data["NEURAL_NETWORK_PARAMS"]["output_dim"],
         num_layers=config_data["NEURAL_NETWORK_PARAMS"]["num_layers"],
         num_neurons_per_layer=config_data["NEURAL_NETWORK_PARAMS"]["num_neurons_per_layer"])
-    net = neural_network.TopOptNet(nn_params=nn_params)
+    net = neural_network.TopOptNet(nn_params=nn_params, seed=seed)
 
     vae_params = vae_network.VAE_Params(input_dim=12, encoder_hidden_dim=600,
                                         latent_dim=2, decoder_hidden_dim=600)
@@ -114,6 +115,9 @@ def main():
     ap.add_argument("--fix-latent", default=None, help='"z1,z2" -> orientation-only')
     ap.add_argument("--fix-latent-file", default=None,
                     help="M_star.npy from run_latent_space.py -> orientation-only")
+    ap.add_argument("--seed", type=int, default=77, help="NN init seed (multi-seed best-of)")
+    ap.add_argument("--init-net", default=None,
+                    help="warm-start NN weights (.pt) from a previous run (Pareto continuation)")
     args = ap.parse_args()
 
     with open(args.config) as f:
@@ -125,7 +129,10 @@ def main():
     out_dir = os.path.join(args.out_dir, tag)
     os.makedirs(out_dir, exist_ok=True)
 
-    mesh, solver, fmat, fmap, net, vae, max_feature, min_feature = build(cfg, args.vae_dir)
+    mesh, solver, fmat, fmap, net, vae, max_feature, min_feature = build(cfg, args.vae_dir, seed=args.seed)
+    if args.init_net:
+        net.load_state_dict(torch.load(args.init_net))
+        print(f"warm-started NN from {args.init_net}")
 
     # constraint / target overrides
     constraint_type = opt_constraints.ConstraintType[
@@ -229,6 +236,7 @@ def main():
              C00=C00, C11=C11, constraint_field=cfield.detach().numpy(),
              nelx=mesh.nelx, nely=mesh.nely, elem_dx=mesh.elem_dx,
              constraint_type=constraint_type.name, perim_scale=perim_scale)
+    torch.save(net.state_dict(), os.path.join(out_dir, "net.pt"))  # for Pareto warm-start
     dt = time.time() - t0
 
     # ---- outputs
