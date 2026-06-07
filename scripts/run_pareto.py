@@ -1,9 +1,13 @@
-"""Pareto trade-off sweep (§3.5, Fig 14) for the diffuser problem.
+"""Pareto trade-off sweep (§3.5, Fig 14) with warm-start continuation.
 
-Runs the multiscale TO at several desired contact-area (perimeter) targets and
-plots the achieved dissipated power vs. achieved contact area. Reuses the
-validated single-run driver ``run_to.py`` via subprocess so the optimization
-path is identical.
+Sweeps the desired contact area in ascending order and **warm-starts** each
+optimization from the previous converged network (a homotopy / continuation
+scheme). This yields a smooth, monotonic front instead of the noisy one obtained
+when every point is optimized from scratch (different local optima).
+
+Each design is additionally validated by true-FEA re-homogenization
+(run_validate_design.py) so the front can be reported in *true* dissipated power,
+not just the decoder's estimate.
 """
 
 from __future__ import annotations
@@ -28,40 +32,62 @@ def main():
     ap.add_argument("--perims", default="40,50,60,70,80",
                     help="comma-separated desired contact-area targets")
     ap.add_argument("--out-dir", default=os.path.join(HERE, "..", "results", "pareto"))
+    ap.add_argument("--no-warm-start", action="store_true",
+                    help="optimize each point from scratch (old behaviour)")
+    ap.add_argument("--no-validate", action="store_true",
+                    help="skip true-FEA validation of each point")
     args = ap.parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
-    perims = [float(p) for p in args.perims.split(",")]
+    perims = sorted(float(p) for p in args.perims.split(","))  # ascending -> continuation
 
-    achieved_ca, achieved_pw = [], []
+    ca, dec_pw, true_pw = [], [], []
+    prev_net = None
     for p in perims:
         tag = f"pareto_{p:g}"
-        print(f"=== running diffuser, desired contact area = {p} ===", flush=True)
-        subprocess.run([sys.executable, os.path.join(HERE, "run_to.py"),
-                        "--config", args.config, "--constraint", "PERIMETER",
-                        "--desired-perim", str(p), "--out-dir", args.out_dir,
-                        "--tag", tag], check=True)
-        with open(os.path.join(args.out_dir, tag, "metrics.json")) as f:
+        outdir = os.path.join(args.out_dir, tag)
+        cmd = [sys.executable, os.path.join(HERE, "run_to.py"),
+               "--config", args.config, "--constraint", "PERIMETER",
+               "--desired-perim", str(p), "--out-dir", args.out_dir, "--tag", tag]
+        if prev_net and not args.no_warm_start:
+            cmd += ["--init-net", prev_net]
+        print(f"=== diffuser, desired contact area = {p}"
+              f"{' (warm-start)' if (prev_net and not args.no_warm_start) else ''} ===", flush=True)
+        subprocess.run(cmd, check=True)
+        with open(os.path.join(outdir, "metrics.json")) as f:
             m = json.load(f)
-        achieved_ca.append(m["final_contact_area"])
-        achieved_pw.append(m["final_dissipated_power"])
-        print(f"  -> contact_area={m['final_contact_area']:.2f} "
-              f"power={m['final_dissipated_power']:.3f}")
+        ca.append(m["final_contact_area"]); dec_pw.append(m["final_dissipated_power"])
+        prev_net = os.path.join(outdir, "net.pt")
 
-    order = sorted(range(len(achieved_ca)), key=lambda i: achieved_ca[i])
-    ca = [achieved_ca[i] for i in order]
-    pw = [achieved_pw[i] for i in order]
+        tp = None
+        if not args.no_validate:
+            subprocess.run([sys.executable, os.path.join(HERE, "run_validate_design.py"),
+                            "--config", args.config,
+                            "--design", os.path.join(outdir, "design.npz")], check=True)
+            with open(os.path.join(outdir, "validation.json")) as f:
+                tp = json.load(f)["true_power"]
+        true_pw.append(tp)
+        print(f"  -> contact_area={m['final_contact_area']:.2f} decoder_power="
+              f"{m['final_dissipated_power']:.3f} true_power={tp}")
+
+    # plot (sorted by achieved contact area)
+    order = sorted(range(len(ca)), key=lambda i: ca[i])
+    cas = [ca[i] for i in order]
     plt.figure(figsize=(6, 4))
-    plt.plot(ca, pw, "o-")
-    for x, y, p in zip(ca, pw, [perims[i] for i in order]):
-        plt.annotate(f"{p:g}", (x, y), textcoords="offset points", xytext=(5, 5), fontsize=8)
+    plt.plot(cas, [dec_pw[i] for i in order], "o-", label="decoder")
+    if not args.no_validate:
+        plt.plot(cas, [true_pw[i] for i in order], "s--", label="true (FEA)")
     plt.xlabel("contact area"); plt.ylabel("dissipated power")
-    plt.title("Pareto front: dissipated power vs contact area (Fig 14)")
-    plt.grid(True); plt.tight_layout()
+    plt.title("Pareto front (Fig 14): warm-start continuation")
+    plt.legend(); plt.grid(True); plt.tight_layout()
     plt.savefig(os.path.join(args.out_dir, "fig14_pareto.png"), dpi=200)
     with open(os.path.join(args.out_dir, "pareto.json"), "w") as f:
-        json.dump({"target_perims": perims, "achieved_contact_area": achieved_ca,
-                   "achieved_power": achieved_pw}, f, indent=2)
-    print(f"Saved Pareto results to {args.out_dir}")
+        json.dump({"target_perims": perims, "achieved_contact_area": ca,
+                   "achieved_power": dec_pw, "true_power": true_pw,
+                   "warm_start": not args.no_warm_start}, f, indent=2)
+    # monotonicity check
+    pw_sorted = [(true_pw[i] if true_pw[i] is not None else dec_pw[i]) for i in order]
+    mono = all(pw_sorted[i] <= pw_sorted[i + 1] + 1e-9 for i in range(len(pw_sorted) - 1))
+    print(f"Saved Pareto to {args.out_dir}. Monotonic (power increases with contact area): {mono}")
 
 
 if __name__ == "__main__":

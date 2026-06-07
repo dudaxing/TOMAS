@@ -8,6 +8,10 @@ class NomalizationType(Enum):
   LOG = auto()
 
 class VAE_Fields(Enum):
+  # 12-D input (repo's actual code): 8 shape params [a,b,m,n1,n2,n3,cx,cy] +
+  # C00 + C11 + perimeter + area. Empirically gives better TO than the paper's
+  # stated 10-D (dropping the near-constant cx,cy shifts the latent geometry and
+  # raises dissipated power / lowers the M* permeability).
   shape_a = 0
   shape_b = 1
   shape_m = 2

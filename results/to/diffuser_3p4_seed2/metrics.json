@@ -1,0 +1,13 @@
+{
+  "tag": "diffuser_3p4_seed2",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 25.95355211755718,
+  "final_contact_area": 57.40013277545853,
+  "max_velocity_magnitude": 2.7754428181293727,
+  "orientation_only": false,
+  "runtime_sec": 29.327394008636475
+}

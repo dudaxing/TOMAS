@@ -5,9 +5,9 @@
   "desired_vol_frac": 0.5,
   "num_epochs": 301,
   "lr": 0.002,
-  "final_dissipated_power": 28.350141403398148,
-  "final_contact_area": 60.05185580190734,
-  "max_velocity_magnitude": 2.7694003384826154,
+  "final_dissipated_power": 25.787689263495242,
+  "final_contact_area": 59.8369804098534,
+  "max_velocity_magnitude": 2.766615487239995,
   "orientation_only": false,
-  "runtime_sec": 22.84726858139038
+  "runtime_sec": 27.556549549102783
 }

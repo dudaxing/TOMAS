@@ -1,0 +1,26 @@
+{
+  "selected_seed": 77,
+  "runs": [
+    {
+      "seed": 77,
+      "dir": "/mnt/e/Working/reproduceTOMAS/scripts/../results/to/diffuser_3p4_seed77",
+      "true_power": 32.6237974637986,
+      "decoder_power": 28.350141403398148,
+      "contact_area": 60.05185580190734
+    },
+    {
+      "seed": 1,
+      "dir": "/mnt/e/Working/reproduceTOMAS/scripts/../results/to/diffuser_3p4_seed1",
+      "true_power": 44.28725486808467,
+      "decoder_power": 43.27515480151162,
+      "contact_area": 60.19923506888592
+    },
+    {
+      "seed": 2,
+      "dir": "/mnt/e/Working/reproduceTOMAS/scripts/../results/to/diffuser_3p4_seed2",
+      "true_power": 25.33474701708461,
+      "decoder_power": 25.95355211755718,
+      "contact_area": 57.40013277545853
+    }
+  ]
+}

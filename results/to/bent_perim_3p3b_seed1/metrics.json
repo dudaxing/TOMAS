@@ -1,0 +1,13 @@
+{
+  "tag": "bent_perim_3p3b_seed1",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 75.69,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 7.307330861006078,
+  "final_contact_area": 76.62860537725624,
+  "max_velocity_magnitude": 0.9816118683927972,
+  "orientation_only": false,
+  "runtime_sec": 404.8712475299835
+}
