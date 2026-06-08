@@ -1,0 +1,13 @@
+{
+  "tag": "diffuser_med",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 147.54505701047833,
+  "final_contact_area": 64.30794849371935,
+  "max_velocity_magnitude": 2.7053868167621955,
+  "orientation_only": false,
+  "runtime_sec": 30.449180603027344
+}

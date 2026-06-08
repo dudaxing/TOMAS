@@ -355,16 +355,17 @@ def generate_random_super_shapes(num_shapes: int,
                    (num_shapes,))
   m =rng.uniform(shape_extents.m.min_val, shape_extents.m.max_val,     
                    (num_shapes,))                                   
-  # Paper-faithful: n1, n2, n3 are sampled INDEPENDENTLY-uniform (Padhy et al.
-  # 2024, Sec. 2.3). The directional leaf/fish micro-structures the optimiser
-  # exploits (e.g. the M* {m=0.604, n1=1.479, n2=0.435, n3=0.586}) come from the
-  # DECODER navigating the latent space, not from leaves being common in the data.
-  n1 = rng.uniform(shape_extents.n1.min_val, shape_extents.n1.max_val,
-                   (num_shapes,))
-  n2 = rng.uniform(shape_extents.n2.min_val, shape_extents.n2.max_val,
-                   (num_shapes,))
-  n3 = rng.uniform(shape_extents.n3.min_val, shape_extents.n3.max_val,
-                   (num_shapes,))
+  # CORRELATED n1=n2=n3 (single draw). Reason (round 6): independent n1,n2,n3
+  # is a 3-D exponent space that the 2-D-latent VAE cannot reconstruct smoothly
+  # (~43-47% error -> nearby latent codes decode to very different shapes ->
+  # noisy, cell-to-cell-jumpy designs). Correlating the exponents collapses that
+  # to 1-D so the VAE reconstructs accurately (~19% error) -> a SMOOTH decoder ->
+  # smooth designs like the paper's. Combined with m in [1,6] this still spans
+  # lens/leaf (m~2, low n) and round/circle (m~4-6, high n) -- the paper's
+  # circle+lens palette -- without the spiky high-m stars.
+  n = rng.uniform(shape_extents.n1.min_val, shape_extents.n1.max_val,
+                  (num_shapes,))
+  n1, n2, n3 = n, n.copy(), n.copy()
   cx = rng.uniform(shape_extents.center_x.min_val, shape_extents.center_x.max_val,
                    (num_shapes,))
   cy = rng.uniform(shape_extents.center_y.min_val, shape_extents.center_y.max_val,

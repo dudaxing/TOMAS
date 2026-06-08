@@ -1,0 +1,13 @@
+{
+  "tag": "bifurcated_med",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 42.508123416983295,
+  "final_contact_area": 69.20109452774457,
+  "max_velocity_magnitude": 1.8531193676359707,
+  "orientation_only": false,
+  "runtime_sec": 44.16913723945618
+}

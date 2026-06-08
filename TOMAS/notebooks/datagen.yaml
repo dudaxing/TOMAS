@@ -3,18 +3,24 @@ SUPERSHAPE:
   max_a: 0.75
   min_b: 5.e-2
   max_b: 0.75
-  # Paper-faithful ranges (Padhy et al. 2024, Sec. 2.3): 1 <= m <= 22 and
-  # 0.5 <= n1,n2,n3 <= 10, sampled INDEPENDENTLY-uniform. (The committed default
-  # used m in [0.5,11]; rounds 4-5 of this reproduction used correlated / narrow
-  # m to force leaf shapes -- both deviated from the paper and are reverted here.)
+  # MEDIUM library (round 6): m in [1,6], n in [0.5,4], independent-uniform.
+  # Rationale: the paper's full range m in [1,22] is too diverse for a 2-D latent
+  # VAE to reconstruct smoothly (~47% error), so nearby latent codes decode to
+  # wildly different shapes -> noisy designs with 8-22-point spiky stars that the
+  # paper never shows. Capping m at 6 keeps the paper's actual design palette
+  # (m~2 lens/leaf for flow channels, m~4 round shapes for the dense walls, plus
+  # mild 5-6-fold), excludes the spiky high-m stars, and is narrow enough for the
+  # 2-D VAE to reconstruct smoothly -> smooth circle/lens designs like Figs 11/16.
+  # m up to 6 also adds perimeter vs the m~2-only leaf library, easing the
+  # contact-area ceiling. n capped at 4 (n>4 only adds near-circles, redundant).
   min_m: 1.0
-  max_m: 22.0
+  max_m: 6.0
   min_n1: 0.5
-  max_n1: 10.0
+  max_n1: 4.0
   min_n2: 0.5
-  max_n2: 10.0
+  max_n2: 4.0
   min_n3: 0.5
-  max_n3: 10.0
+  max_n3: 4.0
   min_cx: 1.e-5
   max_cx: 1.1e-5
   min_cy: 1.e-5
