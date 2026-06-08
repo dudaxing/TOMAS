@@ -84,21 +84,34 @@ def build(config_data, vae_dir, seed=77):
 
 
 def save_microstructures(mstr_params, theta, nelx, nely, path):
+    """Paper-faithful micro-structure plot (cf. Figs 11/16).
+
+    Each super-shape is drawn at its TRUE outline (no clip-to-square, which the
+    earlier version used and which squared off circles/leaves). Its size grows
+    with the solid volume fraction (sqrt, with a visible floor) so dense cells
+    read as large packed shapes and high-permeability cells as small ones --
+    reproducing the size variation of the paper's designs -- on the paper's
+    pink-on-light-blue palette.
+    """
     x, y = supershape.get_euclidean_coords_of_points_on_surf_super_shape(mstr_params, theta)
-    fig, ax = plt.subplots(1, 1, figsize=(nelx / 3 + 2, nely / 3 + 2))
-    ax.patch.set_facecolor("#DAE8FC")
+    area = np.abs(0.5 * np.sum(x * np.roll(y, -1, 1) - np.roll(x, -1, 1) * y, axis=1))
+    rmax = np.max(np.hypot(x, y), axis=1) + 1e-12
+    vf = np.sqrt(area / (np.max(area) + 1e-12))
+    scale = 0.92 * np.clip(vf, 0.18, 1.0) / rmax        # half-cell == 0.5
+    fig, ax = plt.subplots(figsize=(nelx / 4 + 1.5, nely / 4 + 1.5))
+    ax.set_facecolor("#DAE8FC")
     ctr = 0
     for rw in range(nelx):
-        dx = 2 * rw + 1.0
         for col in range(nely):
-            dy = 2 * col + 1.0
-            xc = np.clip(x[ctr, :] + dx, 2 * rw, 2 * rw + 2.0)
-            yc = np.clip(y[ctr, :] + dy, 2 * col, 2 * col + 2.0)
-            ax.fill(xc, yc, facecolor="#F8CECC", edgecolor="black", linewidth=0.2)
+            ax.fill((rw + 0.5) + x[ctr] * scale[ctr],
+                    (col + 0.5) + y[ctr] * scale[ctr],
+                    facecolor="#F4B6B6", edgecolor="#222222", linewidth=0.45)
             ctr += 1
-    ax.plot([0, 2 * nelx, 2 * nelx, 0, 0], [0, 0, 2 * nely, 2 * nely, 0], "k")
-    ax.axis("equal"); ax.axis("off")
-    fig.tight_layout(); fig.savefig(path, dpi=200); plt.close(fig)
+    ax.set_xlim(0, nelx); ax.set_ylim(0, nely)
+    for s in ax.spines.values():
+        s.set_color("#222222"); s.set_linewidth(1.2)
+    ax.set_xticks([]); ax.set_yticks([]); ax.set_aspect("equal")
+    fig.tight_layout(pad=0.2); fig.savefig(path, dpi=220); plt.close(fig)
 
 
 def main():

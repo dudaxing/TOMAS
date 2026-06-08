@@ -3,20 +3,18 @@ SUPERSHAPE:
   max_a: 0.75
   min_b: 5.e-2
   max_b: 0.75
-  # Concentrated on the 2-fold leaf/almond family (m ~= 2) with correlated
-  # n1=n2=n3 in [0.5, 3.5]: low n -> pointed leaf, mid n -> almond/lens, high n
-  # -> rounded oval, a!=b -> elongated/anisotropic. This makes the micro-structure
-  # vocabulary leaf/almond-DOMINATED like the paper's designs (Figs 11/16), instead
-  # of the star/circle-dominated set produced by the wide independent-uniform
-  # sampling (m up to 11, n up to 10) of the committed default.
-  min_m: 1.8
-  max_m: 2.6
+  # Paper-faithful ranges (Padhy et al. 2024, Sec. 2.3): 1 <= m <= 22 and
+  # 0.5 <= n1,n2,n3 <= 10, sampled INDEPENDENTLY-uniform. (The committed default
+  # used m in [0.5,11]; rounds 4-5 of this reproduction used correlated / narrow
+  # m to force leaf shapes -- both deviated from the paper and are reverted here.)
+  min_m: 1.0
+  max_m: 22.0
   min_n1: 0.5
-  max_n1: 3.5
+  max_n1: 10.0
   min_n2: 0.5
-  max_n2: 3.5
+  max_n2: 10.0
   min_n3: 0.5
-  max_n3: 3.5
+  max_n3: 10.0
   min_cx: 1.e-5
   max_cx: 1.1e-5
   min_cy: 1.e-5

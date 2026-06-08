@@ -355,18 +355,16 @@ def generate_random_super_shapes(num_shapes: int,
                    (num_shapes,))
   m =rng.uniform(shape_extents.m.min_val, shape_extents.m.max_val,     
                    (num_shapes,))                                   
-  # Sample a SINGLE exponent n per shape and set n1 = n2 = n3 (correlated),
-  # matching the paper's super-shape illustration (n1 = n2 = n3 = 0.6 for the
-  # leaf/almond shape). Sampling n1, n2, n3 INDEPENDENTLY over [0.5, 10] makes
-  # the leaf region (all three < 1) vanishingly rare -- P ~= 0.05^3 ~= 0.01% --
-  # so the dataset contained ZERO anisotropic leaf micro-structures, and the VAE
-  # could only ever decode isotropic blobs/stars. Correlating the exponents
-  # restores the leaf family (P(n<1) ~= 5%), giving the optimiser the directional
-  # building blocks the paper relies on. n1's extent is used for the shared draw
-  # (n1/n2/n3 share the same [0.5, 10] range in the config).
-  n = rng.uniform(shape_extents.n1.min_val, shape_extents.n1.max_val,
-                  (num_shapes,))
-  n1, n2, n3 = n, n.copy(), n.copy()
+  # Paper-faithful: n1, n2, n3 are sampled INDEPENDENTLY-uniform (Padhy et al.
+  # 2024, Sec. 2.3). The directional leaf/fish micro-structures the optimiser
+  # exploits (e.g. the M* {m=0.604, n1=1.479, n2=0.435, n3=0.586}) come from the
+  # DECODER navigating the latent space, not from leaves being common in the data.
+  n1 = rng.uniform(shape_extents.n1.min_val, shape_extents.n1.max_val,
+                   (num_shapes,))
+  n2 = rng.uniform(shape_extents.n2.min_val, shape_extents.n2.max_val,
+                   (num_shapes,))
+  n3 = rng.uniform(shape_extents.n3.min_val, shape_extents.n3.max_val,
+                   (num_shapes,))
   cx = rng.uniform(shape_extents.center_x.min_val, shape_extents.center_x.max_val,
                    (num_shapes,))
   cy = rng.uniform(shape_extents.center_y.min_val, shape_extents.center_y.max_val,

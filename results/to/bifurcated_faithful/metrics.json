@@ -1,0 +1,13 @@
+{
+  "tag": "bifurcated_faithful",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 29.326738379150076,
+  "final_contact_area": 73.24022642708356,
+  "max_velocity_magnitude": 1.8438981678318613,
+  "orientation_only": false,
+  "runtime_sec": 45.88261437416077
+}

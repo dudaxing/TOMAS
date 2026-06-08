@@ -1,0 +1,13 @@
+{
+  "tag": "diffuser_faithful",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 22.340734584905285,
+  "final_contact_area": 61.184047074243736,
+  "max_velocity_magnitude": 2.7832798316036484,
+  "orientation_only": false,
+  "runtime_sec": 32.995970249176025
+}
