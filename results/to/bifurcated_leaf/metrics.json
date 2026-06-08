@@ -1,0 +1,13 @@
+{
+  "tag": "bifurcated_leaf",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 38.19089806718608,
+  "final_contact_area": 72.87631514037278,
+  "max_velocity_magnitude": 1.8473304009836509,
+  "orientation_only": false,
+  "runtime_sec": 41.78265428543091
+}
