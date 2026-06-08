@@ -1,0 +1,13 @@
+{
+  "tag": "diffuser_leaf2",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 39.63304960056474,
+  "final_contact_area": 43.06181815934309,
+  "max_velocity_magnitude": 2.7615138101212318,
+  "orientation_only": false,
+  "runtime_sec": 29.59205961227417
+}

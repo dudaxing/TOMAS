@@ -1,0 +1,13 @@
+{
+  "tag": "bent_orient_leaf2",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 75.69,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 14.440308372633304,
+  "final_contact_area": 103.55352310630978,
+  "max_velocity_magnitude": 0.9803610022074691,
+  "orientation_only": true,
+  "runtime_sec": 441.1144495010376
+}
