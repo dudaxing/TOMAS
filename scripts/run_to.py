@@ -86,18 +86,18 @@ def build(config_data, vae_dir, seed=77):
 def save_microstructures(mstr_params, theta, nelx, nely, path):
     """Paper-faithful micro-structure plot (cf. Figs 11/16).
 
-    Each super-shape is drawn at its TRUE outline (no clip-to-square, which the
-    earlier version used and which squared off circles/leaves). Its size grows
-    with the solid volume fraction (sqrt, with a visible floor) so dense cells
-    read as large packed shapes and high-permeability cells as small ones --
-    reproducing the size variation of the paper's designs -- on the paper's
-    pink-on-light-blue palette.
+    Each super-shape is drawn at its TRUE outline (no clip-to-square) and at its
+    TRUE relative size: a single GLOBAL scale maps the shapes into the grid so
+    the 97th-percentile shape just fits its cell (half-cell = 0.5), and the few
+    larger ones are capped so NOTHING overlaps a neighbour. Small (high-
+    permeability) cells therefore stay small with fluid (light blue) around them,
+    while dense cells pack large -- matching the paper's pink-on-blue figures.
     """
     x, y = supershape.get_euclidean_coords_of_points_on_surf_super_shape(mstr_params, theta)
-    area = np.abs(0.5 * np.sum(x * np.roll(y, -1, 1) - np.roll(x, -1, 1) * y, axis=1))
     rmax = np.max(np.hypot(x, y), axis=1) + 1e-12
-    vf = np.sqrt(area / (np.max(area) + 1e-12))
-    scale = 0.92 * np.clip(vf, 0.18, 1.0) / rmax        # half-cell == 0.5
+    half = 0.46                                         # touch margin inside the 0.5 half-cell
+    g = half / np.percentile(rmax, 97)                  # global true-size gain
+    scale = np.minimum(g, half / rmax)                  # cap the top few -> no overlap
     fig, ax = plt.subplots(figsize=(nelx / 4 + 1.5, nely / 4 + 1.5))
     ax.set_facecolor("#DAE8FC")
     ctr = 0

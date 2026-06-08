@@ -33,15 +33,14 @@ def main():
     mstr = ss.SuperShapes(*[sp[:, i] for i in range(8)])
     x, y = ss.get_euclidean_coords_of_points_on_surf_super_shape(mstr, theta)
 
-    # per-shape solid area fraction (for --size vf): polygon area via shoelace,
-    # normalised by the largest so the densest cell fills the cell.
-    area = np.abs(0.5 * np.sum(x * np.roll(y, -1, 1) - np.roll(x, -1, 1) * y, axis=1))
+    # FAITHFUL sizing: one GLOBAL scale preserves true relative sizes, set so the
+    # 97th-percentile shape just fits its cell (half-cell = 0.5); the few larger
+    # ones are capped so nothing overlaps a neighbour. Small (high-permeability)
+    # cells therefore stay small with fluid (blue) around them.
     rmax = np.max(np.hypot(x, y), axis=1) + 1e-12
-    if a.size == "vf":
-        vf = np.sqrt(area / (np.max(area) + 1e-12))          # 0..1
-        scale = a.margin * np.clip(vf, 0.18, 1.0) / rmax     # keep a visible floor
-    else:
-        scale = a.margin / rmax                               # every shape fills its cell
+    half = 0.5 * a.margin                                     # touch margin inside half-cell
+    g = half / np.percentile(rmax, 97)                       # global true-size gain
+    scale = np.minimum(g, half / rmax)                       # cap the top few to avoid overlap
 
     fig, ax = plt.subplots(figsize=(nelx / 4 + 1.5, nely / 4 + 1.5))
     ax.set_facecolor("#DAE8FC")
