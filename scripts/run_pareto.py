@@ -36,6 +36,11 @@ def main():
                     help="optimize each point from scratch (old behaviour)")
     ap.add_argument("--no-validate", action="store_true",
                     help="skip true-FEA validation of each point")
+    ap.add_argument("--with-volume", action="store_true",
+                    help="add a solid-volume-fraction constraint to each point so the "
+                         "contact area cannot be met by wall-piling (rising front)")
+    ap.add_argument("--desired-vol", type=float, default=None,
+                    help="override the solid-volume-fraction target for --with-volume")
     args = ap.parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
     perims = sorted(float(p) for p in args.perims.split(","))  # ascending -> continuation
@@ -50,6 +55,10 @@ def main():
                "--desired-perim", str(p), "--out-dir", args.out_dir, "--tag", tag]
         if prev_net and not args.no_warm_start:
             cmd += ["--init-net", prev_net]
+        if args.with_volume:
+            cmd += ["--with-volume"]
+        if args.desired_vol is not None:
+            cmd += ["--desired-vol", str(args.desired_vol)]
         print(f"=== diffuser, desired contact area = {p}"
               f"{' (warm-start)' if (prev_net and not args.no_warm_start) else ''} ===", flush=True)
         subprocess.run(cmd, check=True)

@@ -47,8 +47,12 @@ run "3.7 bifurcated pipe perim=70 (Fig16)" \
 run "  validate 3.7" python -u scripts/run_validate_design.py \
     --config $NB/config_biffurcated_pipe.yaml --design results/to/bifurcated_3p7/design.npz
 
-# 3.5 Pareto front (Fig 14) -- warm-start continuation + per-point true-FEA validation
-run "3.5 Pareto sweep (Fig14) warm-start" \
-    python -u scripts/run_pareto.py --perims 40,50,60,70,80
+# 3.5 Pareto front (Fig 14) -- warm-start continuation + per-point true-FEA validation.
+# --with-volume adds a solid-volume-fraction constraint (solid >= 25%, matching the
+# vf~0.25 micro-structures of 3.1) so the contact-area target cannot be met by piling
+# perimeter on the no-flow walls; this restores the paper's monotonically RISING front
+# (true power ~20->25 over contact area 50->80) instead of a flat/wall-piled one.
+run "3.5 Pareto sweep (Fig14) warm-start + volume constraint (rising front)" \
+    python -u scripts/run_pareto.py --with-volume --desired-vol 0.75 --perims 50,60,70,80
 
 echo "ALL EXPERIMENTS DONE"

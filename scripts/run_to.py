@@ -118,6 +118,11 @@ def main():
     ap.add_argument("--seed", type=int, default=77, help="NN init seed (multi-seed best-of)")
     ap.add_argument("--init-net", default=None,
                     help="warm-start NN weights (.pt) from a previous run (Pareto continuation)")
+    ap.add_argument("--with-volume", action="store_true",
+                    help="add a solid-volume-fraction constraint (>= desired_vol) ALONGSIDE "
+                         "the perimeter/contact-area constraint, so contact area cannot be "
+                         "satisfied by piling thin perimeter on the no-flow walls "
+                         "(reproduces Fig 14's rising Pareto trend)")
     args = ap.parse_args()
 
     with open(args.config) as f:
@@ -195,11 +200,21 @@ def main():
         sp_data = out[:, :vae_data_prep.VAE_Fields.homog_c00.value].clone().detach().numpy()
         mstr = supershape.SuperShapes(*[sp_data[:, i] for i in range(8)])
         fluid_loss, vp_field = solver.fluid_objective_function(fmat, C00, C11, theta)
-        cons = opt_constraints.constraint_function(constraint_type, constraint_field,
-                                                   desired_vol, desired_perim)
+        cons_list = [opt_constraints.constraint_function(constraint_type, constraint_field,
+                                                         desired_vol, desired_perim)]
+        if args.with_volume and constraint_type == opt_constraints.ConstraintType.PERIMETER:
+            # Secondary solid-volume-fraction constraint (mean solid >= desired_vol).
+            # Without it, the contact-area target can be met by piling thin
+            # high-perimeter micro-structures on the no-flow top/bottom walls, leaving
+            # the flow path open -> dissipated power barely rises with contact area
+            # (a flat Pareto front). Forcing >= desired_vol solid distributed couples
+            # contact area to permeability (more area -> smaller pores -> higher power).
+            vol_field = out[:, vae_data_prep.VAE_Fields.shape_area.value]
+            cons_list.append(opt_constraints.constraint_function(
+                opt_constraints.ConstraintType.VOLUME, vol_field, desired_vol, desired_perim))
         if epoch in (0, 20):
             J0["val"] = fluid_loss.item()
-        net_loss = loss.combined_loss(fluid_loss / J0["val"], [cons], loss_type,
+        net_loss = loss.combined_loss(fluid_loss / J0["val"], cons_list, loss_type,
                                       loss_params, epoch)
         return net_loss, fluid_loss, constraint_field, mstr, theta, vp_field
 

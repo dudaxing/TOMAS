@@ -1,0 +1,13 @@
+{
+  "tag": "pareto_70",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 98.53794299028687,
+  "final_contact_area": 68.82224240281707,
+  "max_velocity_magnitude": 2.7100720187574203,
+  "orientation_only": false,
+  "runtime_sec": 29.178085803985596
+}
