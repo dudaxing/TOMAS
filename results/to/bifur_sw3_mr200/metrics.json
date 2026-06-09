@@ -1,0 +1,13 @@
+{
+  "tag": "bifur_sw3_mr200",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 24.397949974438383,
+  "final_contact_area": 73.10132867453963,
+  "max_velocity_magnitude": 1.843475215819361,
+  "orientation_only": false,
+  "runtime_sec": 43.33164691925049
+}

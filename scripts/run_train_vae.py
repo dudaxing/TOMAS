@@ -52,6 +52,9 @@ def main():
     ap.add_argument("--lr-min", type=float, default=None,
                     help="cosine LR floor; set equal to --lr/config lr for a FLAT schedule "
                          "(overrides vae_config lr_min without editing it)")
+    ap.add_argument("--batch-size", type=int, default=None,
+                    help="mini-batch size for SGD (default None = full-batch). A finite value "
+                         "(e.g. 512) converges to a much lower reconstruction error.")
     args = ap.parse_args()
 
     with open(args.datagen_config) as f:
@@ -116,7 +119,8 @@ def main():
             num_epochs=num_epochs, kl_factor=opt_cfg["kl_factor"],
             lr=opt_cfg["lr"], save_file=weights_file,
             print_every=max(1, num_epochs // 20),
-            lr_min=(args.lr_min if args.lr_min is not None else opt_cfg.get("lr_min")))
+            lr_min=(args.lr_min if args.lr_min is not None else opt_cfg.get("lr_min")),
+            batch_size=args.batch_size)
         # Re-save a CPU state_dict so the (CPU-based) TO step loads it portably.
         vae_net.to("cpu")
         torch.save(vae_net.state_dict(), weights_file)

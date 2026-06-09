@@ -1,0 +1,13 @@
+{
+  "tag": "bifurcated_s2",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 39.86916554015339,
+  "final_contact_area": 64.28692956421071,
+  "max_velocity_magnitude": 1.8438232717261578,
+  "orientation_only": false,
+  "runtime_sec": 45.95235633850098
+}

@@ -1,0 +1,13 @@
+{
+  "tag": "bent_orient_s2",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 75.69,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 29.059924809322716,
+  "final_contact_area": 126.67783948401888,
+  "max_velocity_magnitude": 0.9778268541785831,
+  "orientation_only": true,
+  "runtime_sec": 458.8050618171692
+}

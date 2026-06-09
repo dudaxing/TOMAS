@@ -1,0 +1,13 @@
+{
+  "tag": "bifur_sw1_mr750",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 27.83854826253507,
+  "final_contact_area": 72.53204050734949,
+  "max_velocity_magnitude": 1.8420777855179167,
+  "orientation_only": false,
+  "runtime_sec": 41.631280183792114
+}

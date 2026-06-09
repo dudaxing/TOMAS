@@ -91,6 +91,12 @@ def main():
     ap.add_argument("--out-dir", default=os.path.join(HERE, "..", "results", "latent"))
     ap.add_argument("--grid", type=int, default=200)
     ap.add_argument("--target-vf", type=float, default=0.25)
+    ap.add_argument("--m-star-aniso", action="store_true",
+                    help="select M* by the largest TRUE major-axis permeability max(C00,C11) "
+                         "among physically-consistent vf~0.25 candidates that are also "
+                         "anisotropic (major/minor >= 2). This gives a DIRECTIONAL micro-"
+                         "structure for the orientation-only bent pipe (Fig 11), instead of the "
+                         "default max-trace which can pick a near-isotropic shape.")
     args = ap.parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
 
@@ -124,7 +130,8 @@ def main():
     # genuine re-homogenized permeability rather than the decoder's prediction,
     # which over-estimates C at the high-permeability tail.
     order = idx_pool[np.argsort(-trace[idx_pool])]
-    best, best_true, best_ttrace = None, None, -np.inf
+    best, best_true, best_score = None, None, -np.inf
+    best_aniso, best_aniso_true, best_aniso_score = None, None, -np.inf
     for idx in order:
         if perim_dec[idx] < 0.10:          # decoder itself reports ~no boundary
             continue
@@ -133,8 +140,19 @@ def main():
             continue
         tc00, tc11, tarea, tperim = truth
         if 0.18 <= tarea <= 0.32 and tperim > 0.15 and tc00 > 0 and tc11 > 0:
-            if tc00 + tc11 > best_ttrace:
-                best, best_true, best_ttrace = idx, (tc00, tc11, tarea, tperim), tc00 + tc11
+            # default criterion: max TRUE trace (paper's Fig-10 M*).
+            if tc00 + tc11 > best_score:
+                best, best_true, best_score = idx, (tc00, tc11, tarea, tperim), tc00 + tc11
+            # directional criterion: among anisotropic (major/minor >= 2) shapes,
+            # max the TRUE major-axis permeability (best alignable channel for the
+            # orientation-only bent pipe).
+            cmaj, cmin = max(tc00, tc11), min(tc00, tc11)
+            if cmaj / cmin >= 2.0 and cmaj > best_aniso_score:
+                best_aniso, best_aniso_true, best_aniso_score = idx, (tc00, tc11, tarea, tperim), cmaj
+    if args.m_star_aniso and best_aniso is not None:
+        best, best_true = best_aniso, best_aniso_true
+        print(f"  [M*] directional mode: major-axis C={best_aniso_score:.4e}, "
+              f"anisotropy={max(best_true[:2])/min(best_true[:2]):.1f}x")
     if best is None:
         print("  [warn] no self-consistent vf=0.25 candidate; "
               "falling back to max decoded trace(C).")

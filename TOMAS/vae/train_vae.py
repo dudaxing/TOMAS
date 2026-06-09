@@ -8,7 +8,8 @@ def train_autoencoder(vae: network.VariationalAutoencoder,
                       lr: float,
                       save_file: str,
                       print_every: int = 500,
-                      lr_min: float = None)->dict:
+                      lr_min: float = None,
+                      batch_size: int = None)->dict:
   """Train the variational autoencoder.
 
   Args:
@@ -30,19 +31,31 @@ def train_autoencoder(vae: network.VariationalAutoencoder,
       opt, T_max=num_epochs, eta_min=lr_min) if lr_min is not None else None)
   convg_history = {'recon_loss':[], 'kl_loss':[], 'loss':[]}
   vae.encoder.is_training = True
+  n = train_data.shape[0]
+  full_batch = (batch_size is None or batch_size >= n)
   for epoch in range(num_epochs):
-    opt.zero_grad()
-    pred_data = vae(train_data)
-    kl_loss = vae.encoder.kl
-    recon_loss =  ((train_data - pred_data)**2).mean()
-    loss = recon_loss + kl_factor*kl_loss 
-    loss.backward()
+    # Mini-batch SGD (batch_size given) converges to a much lower reconstruction
+    # error than the original full-batch GD, which gets stuck early. Default
+    # (None) keeps the faithful full-batch behaviour.
+    if full_batch:
+      batches = [slice(None)]
+    else:
+      perm = torch.randperm(n, device=train_data.device)
+      batches = [perm[i:i + batch_size] for i in range(0, n, batch_size)]
+    for idx in batches:
+      opt.zero_grad()
+      xb = train_data[idx]
+      pred = vae(xb)
+      kl_loss = vae.encoder.kl
+      recon_loss = ((xb - pred) ** 2).mean()
+      loss = recon_loss + kl_factor * kl_loss
+      loss.backward()
+      opt.step()
+    if scheduler is not None:
+      scheduler.step()
     convg_history['recon_loss'].append(recon_loss.item())
     convg_history['kl_loss'].append(kl_loss.item())
     convg_history['loss'].append(loss.item())
-    opt.step()
-    if scheduler is not None:
-      scheduler.step()
     if epoch%print_every == 0:
       print(f'iter {epoch:d} \t recon_loss \t {recon_loss.item():.2E}'
             f' \t kl_loss {kl_loss.item():.2E} \t net_loss {loss.item():.2E}')

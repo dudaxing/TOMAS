@@ -1,0 +1,13 @@
+{
+  "tag": "bifur_d1",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 32.1226853028162,
+  "final_contact_area": 75.27806017255139,
+  "max_velocity_magnitude": 1.8438567073675065,
+  "orientation_only": false,
+  "runtime_sec": 42.396440505981445
+}

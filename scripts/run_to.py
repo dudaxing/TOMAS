@@ -136,10 +136,20 @@ def main():
                          "the perimeter/contact-area constraint, so contact area cannot be "
                          "satisfied by piling thin perimeter on the no-flow walls "
                          "(reproduces Fig 14's rising Pareto trend)")
+    ap.add_argument("--smooth-weight", type=float, default=0.0,
+                    help="weight of a total-variation penalty on the per-cell latent field "
+                         "z(x,y) (and orientation), forcing a SMOOTH design (neighbouring "
+                         "cells get similar shapes) -> suppresses the spiky/cell-to-cell noise "
+                         "the wide-data decoder otherwise produces. 0 = off (default).")
+    ap.add_argument("--max-radius", type=float, default=None,
+                    help="override FOURIER_MAP_PARAMS.max_radius; lower (e.g. 150-300) -> "
+                         "lower-frequency Fourier features -> smoother latent field.")
     args = ap.parse_args()
 
     with open(args.config) as f:
         cfg = yaml.safe_load(f)
+    if args.max_radius is not None:
+        cfg["FOURIER_MAP_PARAMS"]["max_radius"] = args.max_radius
     with open(os.path.join(REPO, "notebooks", "vae_config.yaml")) as f:
         _ = yaml.safe_load(f)
 
@@ -229,6 +239,21 @@ def main():
             J0["val"] = fluid_loss.item()
         net_loss = loss.combined_loss(fluid_loss / J0["val"], cons_list, loss_type,
                                       loss_params, epoch)
+        if args.smooth_weight > 0.0:
+            # Total-variation penalty on the per-cell DECODED attribute field (the
+            # [0,1] sigmoid output) and the orientation theta, reshaped to the
+            # (nelx, nely) grid. We penalise the DECODED output (not the latent z)
+            # because the wide-data decoder is non-smooth -- smoothing z does NOT
+            # smooth the shapes (a tiny z change can flip m from 2 to 15). Penalising
+            # neighbour differences of the decoded shape directly forces a smooth
+            # design (no spiky cell-to-cell jumps).
+            nx, ny = mesh.nelx, mesh.nely
+            dt = decoded.reshape(nx, ny, -1)
+            tv = (torch.abs(dt[1:] - dt[:-1]).sum() + torch.abs(dt[:, 1:] - dt[:, :-1]).sum())
+            tht = theta.reshape(nx, ny, -1)
+            tv = tv + (torch.abs(tht[1:] - tht[:-1]).sum() +
+                       torch.abs(tht[:, 1:] - tht[:, :-1]).sum())
+            net_loss = net_loss + args.smooth_weight * tv / num_elems
         return net_loss, fluid_loss, constraint_field, mstr, theta, vp_field
 
     t0 = time.time()
