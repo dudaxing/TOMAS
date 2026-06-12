@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p4a",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 48.40715445975031,
+  "final_contact_area": 59.475614195841146,
+  "max_velocity_magnitude": 2.7708682611852113,
+  "min_cell_vf": 0.1,
+  "orientation_only": false,
+  "runtime_sec": 31.473697900772095
+}

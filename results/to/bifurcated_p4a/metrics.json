@@ -1,0 +1,14 @@
+{
+  "tag": "bifurcated_p4a",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 28.799918939474217,
+  "final_contact_area": 68.91704545115456,
+  "max_velocity_magnitude": 1.8443629916908537,
+  "min_cell_vf": 0.1,
+  "orientation_only": false,
+  "runtime_sec": 49.30828833580017
+}

@@ -144,6 +144,14 @@ def main():
     ap.add_argument("--max-radius", type=float, default=None,
                     help="override FOURIER_MAP_PARAMS.max_radius; lower (e.g. 150-300) -> "
                          "lower-frequency Fourier features -> smoother latent field.")
+    ap.add_argument("--min-cell-vf", type=float, default=0.0,
+                    help="PER-CELL minimum solid volume fraction (paper Sec 3.7: 'we impose "
+                         "a minimum volume constraint on each microstructure'). Forbids "
+                         "empty cells, so the contact-area target cannot be met by leaving "
+                         "the channel as dots and piling extreme-perimeter stars on walls "
+                         "-> full tiling like the paper's Figs 13b/16b. Aggregated as the "
+                         "mean relative deficit relu(1 - vf/min).mean() and appended to the "
+                         "alpha-continuation penalty constraints. 0 = off (default).")
     args = ap.parse_args()
 
     with open(args.config) as f:
@@ -235,6 +243,16 @@ def main():
             vol_field = out[:, vae_data_prep.VAE_Fields.shape_area.value]
             cons_list.append(opt_constraints.constraint_function(
                 opt_constraints.ConstraintType.VOLUME, vol_field, desired_vol, desired_perim))
+        if args.min_cell_vf > 0.0:
+            # Paper Sec 3.7: per-cell LOWER bound on the solid volume fraction
+            # ("minimum volume constraint on each microstructure"). One-sided
+            # mean relative deficit: 0 when every cell holds >= min_cell_vf
+            # solid; enters the same alpha*c^2 continuation as the other
+            # constraints. This forbids the degenerate optimum of our pure
+            # contact-area runs (empty dot cells in the channel + extreme-
+            # perimeter star walls) and forces the paper's full tiling.
+            vf_field = out[:, vae_data_prep.VAE_Fields.shape_area.value]
+            cons_list.append(torch.relu(1.0 - vf_field / args.min_cell_vf).mean())
         if epoch in (0, 20):
             J0["val"] = fluid_loss.item()
         net_loss = loss.combined_loss(fluid_loss / J0["val"], cons_list, loss_type,
@@ -279,6 +297,7 @@ def main():
             else vae.decoder(net(xy_f)[0]), max_feature, min_feature, NORM_TYPES)
         C00 = decoded[:, vae_data_prep.VAE_Fields.homog_c00.value].numpy()
         C11 = decoded[:, vae_data_prep.VAE_Fields.homog_c11.value].numpy()
+        vf_dec = decoded[:, vae_data_prep.VAE_Fields.shape_area.value].numpy()
     theta_np = theta.detach().numpy()
     last = dict(mstr=mstr, theta=theta_np, vp=vp_field,
                 J=fluid_loss.item(), ca=torch.sum(cfield).item())
@@ -286,7 +305,8 @@ def main():
     # re-homogenize it with the ported solver.
     np.savez(os.path.join(out_dir, "design.npz"),
              shape_params=mstr.to_stacked_array(), theta=theta_np,
-             C00=C00, C11=C11, constraint_field=cfield.detach().numpy(),
+             C00=C00, C11=C11, volume_fraction=vf_dec,
+             constraint_field=cfield.detach().numpy(),
              nelx=mesh.nelx, nely=mesh.nely, elem_dx=mesh.elem_dx,
              constraint_type=constraint_type.name, perim_scale=perim_scale)
     torch.save(net.state_dict(), os.path.join(out_dir, "net.pt"))  # for Pareto warm-start
@@ -314,6 +334,7 @@ def main():
                "num_epochs": num_epochs, "lr": lr,
                "final_dissipated_power": last["J"], "final_contact_area": last["ca"],
                "max_velocity_magnitude": float(vmag.max()),
+               "min_cell_vf": args.min_cell_vf,
                "orientation_only": fix_latent is not None, "runtime_sec": dt}
     with open(os.path.join(out_dir, "metrics.json"), "w") as f:
         json.dump(metrics, f, indent=2)

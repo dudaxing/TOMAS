@@ -28,3 +28,6 @@ skills-lock.json
 
 # One-off PR helper from an earlier session (not part of the reproduction)
 tools/create_pr.py
+
+# Rendered pages from the copyrighted paper PDF (local analysis aid only)
+results/paper_pages/
