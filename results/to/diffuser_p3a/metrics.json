@@ -1,0 +1,13 @@
+{
+  "tag": "diffuser_p3a",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 110.97619679006684,
+  "final_contact_area": 64.09241431370748,
+  "max_velocity_magnitude": 2.806051520591084,
+  "orientation_only": false,
+  "runtime_sec": 35.063260555267334
+}

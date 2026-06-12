@@ -1,8 +1,10 @@
 OPTIMIZATION:
-  num_epochs: 30000
+  # P0 (2026-06-12): restored to upstream-author-exact values
+  # (github.com/UW-ERSL/TOMAS notebooks/vae_config.yaml): 17000 epochs,
+  # CONSTANT lr 8e-3 (upstream has no lr_min / no scheduler).
+  num_epochs: 17000
   kl_factor: 1.e-7
   lr: 8.e-3
-  lr_min: 1.e-4
   save_file: './vae_decoder_net.pkl'
 NETWORK:
   latent_dim: 2
