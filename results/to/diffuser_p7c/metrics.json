@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p7c",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 31.250158567933816,
+  "final_contact_area": 60.009480831808844,
+  "max_velocity_magnitude": 2.7806588178530345,
+  "min_cell_vf": 0.05,
+  "orientation_only": false,
+  "runtime_sec": 32.387824058532715
+}
