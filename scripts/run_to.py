@@ -160,6 +160,11 @@ def main():
     ap.add_argument("--kappa-ref", type=float, default=0.3136,
                     help="convexity reference compactness area/perim^2 (dataset p95=0.3136); "
                          "conv=clamp(kappa/kappa_ref,0,1).")
+    ap.add_argument("--conv-power", type=float, default=1.0,
+                    help="soften the convexity discount: eff_perim = perim * conv^gamma. "
+                         "gamma=1 (default) full discount (stars 6x); gamma<1 (e.g. 0.5) milder "
+                         "-> easier to reach the contact-area target while still favouring "
+                         "compact good-flow shapes over stars.")
     args = ap.parse_args()
 
     with open(args.config) as f:
@@ -245,7 +250,7 @@ def main():
                 # flow shapes (circle/lens) to satisfy the contact-area target.
                 area_feat = out[:, vae_data_prep.VAE_Fields.shape_area.value]
                 kappa = area_feat / (perim_feat ** 2 + 1e-9)
-                conv = torch.clamp(kappa / args.kappa_ref, 0.0, 1.0)
+                conv = torch.clamp(kappa / args.kappa_ref, 0.0, 1.0) ** args.conv_power
                 perim_feat = perim_feat * conv
             constraint_field = solver.mesh.elem_dx * perim_scale * perim_feat
         C00 = out[:, vae_data_prep.VAE_Fields.homog_c00.value] + eps

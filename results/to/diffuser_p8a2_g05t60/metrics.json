@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p8a2_g05t60",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 46.82250056426383,
+  "final_contact_area": 35.04270112571247,
+  "max_velocity_magnitude": 2.7744286188444143,
+  "min_cell_vf": 0.0,
+  "orientation_only": false,
+  "runtime_sec": 30.116121768951416
+}
