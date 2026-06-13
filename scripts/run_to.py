@@ -144,6 +144,15 @@ def main():
     ap.add_argument("--max-radius", type=float, default=None,
                     help="override FOURIER_MAP_PARAMS.max_radius; lower (e.g. 150-300) -> "
                          "lower-frequency Fourier features -> smoother latent field.")
+    ap.add_argument("--flow-quality-weight", type=float, default=0.0,
+                    help="Branch C: weight of a FLOW-QUALITY penalty that pushes the design "
+                         "away from poor-flow star/gear/concave cells (high m, low n) toward "
+                         "leaf/lens/circle, WITHOUT punishing elongation. 0 = off (default).")
+    ap.add_argument("--fq-m0", type=float, default=4.0,
+                    help="flow-quality: lobe-count above which m is penalised (default 4).")
+    ap.add_argument("--fq-n0", type=float, default=1.0,
+                    help="flow-quality: edge exponent below which n is penalised (concave) "
+                         "(default 1.0).")
     ap.add_argument("--min-cell-vf", type=float, default=0.0,
                     help="PER-CELL minimum solid volume fraction (paper Sec 3.7: 'we impose "
                          "a minimum volume constraint on each microstructure'). Forbids "
@@ -257,6 +266,25 @@ def main():
             J0["val"] = fluid_loss.item()
         net_loss = loss.combined_loss(fluid_loss / J0["val"], cons_list, loss_type,
                                       loss_params, epoch)
+        if args.flow_quality_weight > 0.0:
+            # Branch C: FLOW-QUALITY penalty. Fluid-mechanics intuition (and the
+            # data: C_major/perim of m>=7 stars is 9x worse than m~2 leaves):
+            # high-m star/gear cells and concave (low-n) cells are bad for flow
+            # (recirculation in crevices, isotropic high drag) yet maximise the
+            # geometric perimeter the contact-area constraint rewards. Penalise
+            # the GEOMETRIC SIGNATURE of poor flow directly from the decoded
+            # shape params: too many lobes (m > m0) and concave edges (min n < n0).
+            # Crucially this spares ELONGATED lenses (a!=b) -- it does NOT use the
+            # isoperimetric ratio, which would wrongly punish the anisotropic
+            # leaf/fish cells the bent pipe needs.
+            m_dec = out[:, vae_data_prep.VAE_Fields.shape_m.value]
+            nmin = torch.minimum(torch.minimum(
+                out[:, vae_data_prep.VAE_Fields.shape_n1.value],
+                out[:, vae_data_prep.VAE_Fields.shape_n2.value]),
+                out[:, vae_data_prep.VAE_Fields.shape_n3.value])
+            fq = (torch.relu(m_dec - args.fq_m0).mean() +
+                  torch.relu(args.fq_n0 - nmin).mean())
+            net_loss = net_loss + args.flow_quality_weight * fq
         if args.smooth_weight > 0.0:
             # Total-variation penalty on the per-cell DECODED attribute field (the
             # [0,1] sigmoid output) and the orientation theta, reshaped to the

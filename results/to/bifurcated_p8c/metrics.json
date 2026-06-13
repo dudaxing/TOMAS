@@ -1,0 +1,14 @@
+{
+  "tag": "bifurcated_p8c",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 43.34866834409945,
+  "final_contact_area": 63.417779116652255,
+  "max_velocity_magnitude": 1.82504509157841,
+  "min_cell_vf": 0.0,
+  "orientation_only": false,
+  "runtime_sec": 46.106913805007935
+}
