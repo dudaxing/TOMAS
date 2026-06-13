@@ -35,3 +35,23 @@ python scripts/collect_results.py
 速度场、约束满足、真实-FEA 验证误差等关键指标与论文吻合；少数定量差异
 （Pareto 单调性、个别耗散功率绝对值）源自独立训练的 2 维隐空间 VAE 重构精度有限
 与梯度优化局部最优，属从零复现 VAE 类方法的预期范围。
+
+---
+
+## 本分支：方法 A — 有效接触面积度量（p8a-effective-area）
+
+**动机**：从流体力学看，星形微结构不利于流动（多凹腔=死区回流、各向同性高阻），其凹腔周长
+"几何上湿润、流动上无效"，却被几何周长式的接触面积约束当成廉价周长来源。本分支把接触面积约束
+里的几何周长换成**有效周长 = 几何周长 × 凸性折扣** `conv = clamp(area/perim² / 0.3136, 0, 1)`
+（数据标定：圆/叶 conv≈0.97 满分，星形 conv≈0.17 打 6 折），从源头消除星形的"作弊周长"。
+
+**用法**：`scripts/run_to.py --effective-area --kappa-ref 0.3136`（见 `scripts/run_p8a.sh`）。
+
+**结果图（P6b VAE + 有效面积约束，真实-FEA）**：
+
+| 弯管 Fig 11 (真实 13.06) | 分叉管 Fig 16 (29.7 / CA 54) | 扩散器 Fig 13 (52.6 / CA 46) |
+|:---:|:---:|:---:|
+| <img src="results/to/bent_orient_p8a/design.png" width="95"> | <img src="results/to/bifurcated_p8a/design.png" width="160"> | <img src="results/to/diffuser_p8a/design.png" width="160"> |
+
+扩散器视觉最佳（几乎全椭圆/卵形/透镜密铺，贴论文 Fig 13b），直接证实"奖励有效表面 → 自发好流动形状"；
+代价是接触面积顶不满（好流动形状周长本就少）。三方法横向对比见 `pure-claude` 分支 README。
