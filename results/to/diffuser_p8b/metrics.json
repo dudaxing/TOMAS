@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p8b",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 43.67902260118592,
+  "final_contact_area": 57.17149747237569,
+  "max_velocity_magnitude": 2.8124508741867595,
+  "min_cell_vf": 0.0,
+  "orientation_only": false,
+  "runtime_sec": 32.53204965591431
+}
