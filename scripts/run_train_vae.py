@@ -55,6 +55,10 @@ def main():
     ap.add_argument("--batch-size", type=int, default=None,
                     help="mini-batch size for SGD (default None = full-batch). A finite value "
                          "(e.g. 512) converges to a much lower reconstruction error.")
+    ap.add_argument("--kl-factor", type=float, default=None,
+                    help="override OPTIMIZATION.kl_factor (P5 beta sweep: stronger KL -> "
+                         "smoother/better-organized latent map -> caps extreme-perimeter "
+                         "shapes like the paper's decoder). Default: use vae_config.yaml.")
     args = ap.parse_args()
 
     with open(args.datagen_config) as f:
@@ -110,13 +114,14 @@ def main():
     vae_net = network.VariationalAutoencoder(vae_params=vae_params).to(device)
 
     num_epochs = args.epochs or opt_cfg["num_epochs"]
+    kl_factor = args.kl_factor if args.kl_factor is not None else opt_cfg["kl_factor"]
     weights_file = os.path.join(args.out_dir, "vae_net.pt")
     if args.force or not os.path.isfile(weights_file):
         print(f"Training VAE: {num_epochs} epochs, lr={opt_cfg['lr']}, "
-              f"kl={opt_cfg['kl_factor']} ...", flush=True)
+              f"kl={kl_factor} ...", flush=True)
         train_vae.train_autoencoder(
             vae=vae_net, train_data=normalized.to(device),
-            num_epochs=num_epochs, kl_factor=opt_cfg["kl_factor"],
+            num_epochs=num_epochs, kl_factor=kl_factor,
             lr=opt_cfg["lr"], save_file=weights_file,
             print_every=max(1, num_epochs // 20),
             lr_min=(args.lr_min if args.lr_min is not None else opt_cfg.get("lr_min")),

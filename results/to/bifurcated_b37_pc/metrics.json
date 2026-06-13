@@ -1,0 +1,14 @@
+{
+  "tag": "bifurcated_b37_pc",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 30.592338696551906,
+  "final_contact_area": 68.79166037244573,
+  "max_velocity_magnitude": 1.8432921078175453,
+  "min_cell_vf": 0.1,
+  "orientation_only": false,
+  "runtime_sec": 48.57818603515625
+}
