@@ -35,3 +35,23 @@ python scripts/collect_results.py
 速度场、约束满足、真实-FEA 验证误差等关键指标与论文吻合；少数定量差异
 （Pareto 单调性、个别耗散功率绝对值）源自独立训练的 2 维隐空间 VAE 重构精度有限
 与梯度优化局部最优，属从零复现 VAE 类方法的预期范围。
+
+---
+
+## 本分支：方法 C — 流动品质惩罚项（p8c-flowquality-penalty）
+
+**动机**：从流体力学看，星/齿轮（高 m）和凹边（低 n）形状不利于流动。本分支在拓扑优化的目标函数里
+加一个**流动品质惩罚** `relu(m - 4) + relu(1 - min(n1,n2,n3))`，直接把设计推离星/齿轮/凹形，朝
+叶/透镜/圆走；惩罚只针对瓣数与凹度，**不惩罚拉长**，从而保住弯管所需的各向异性透镜。
+
+**用法**：`scripts/run_to.py --flow-quality-weight 20 --fq-m0 4 --fq-n0 1`（见 `scripts/run_p8c.sh`）。
+
+**结果图（P6b VAE + 流动品质惩罚，真实-FEA）**：
+
+| 弯管 Fig 11 (真实 13.06) | 分叉管 Fig 16 (49.7 / CA 58) | 扩散器 Fig 13 (66.7 / CA 51) |
+|:---:|:---:|:---:|
+| <img src="results/to/bent_orient_p8c/design.png" width="95"> | <img src="results/to/bifurcated_p8c/design.png" width="160"> | <img src="results/to/diffuser_p8c/design.png" width="160"> |
+
+形状成功净化（扩散器 m 6.12→2.16、星形占比 0.9%，变椭圆/透镜）；但功率反升（扩散器 22.9→66.7）——
+这是一个**关键反直觉**：几何周长度量下星形本是目标真最优（廉价周长），用惩罚硬掰=对抗目标 → 功率代价。
+正因此，从源头修度量的方法 A（有效接触面积）更治本。三方法横向对比见 `pure-claude` 分支 README。
