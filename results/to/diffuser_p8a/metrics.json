@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p8a",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 47.05880581222901,
+  "final_contact_area": 37.96099805516826,
+  "max_velocity_magnitude": 2.7913541171889036,
+  "min_cell_vf": 0.0,
+  "orientation_only": false,
+  "runtime_sec": 30.24513578414917
+}

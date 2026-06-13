@@ -152,6 +152,14 @@ def main():
                          "-> full tiling like the paper's Figs 13b/16b. Aggregated as the "
                          "mean relative deficit relu(1 - vf/min).mean() and appended to the "
                          "alpha-continuation penalty constraints. 0 = off (default).")
+    ap.add_argument("--effective-area", action="store_true",
+                    help="Branch A: use EFFECTIVE contact area (geometric perimeter x convexity "
+                         "factor) in the PERIMETER constraint, so flow-dead star crevices do not "
+                         "count -> the optimiser must use compact good-flow shapes (circle/lens) "
+                         "to satisfy the contact-area target.")
+    ap.add_argument("--kappa-ref", type=float, default=0.3136,
+                    help="convexity reference compactness area/perim^2 (dataset p95=0.3136); "
+                         "conv=clamp(kappa/kappa_ref,0,1).")
     args = ap.parse_args()
 
     with open(args.config) as f:
@@ -224,8 +232,22 @@ def main():
         if constraint_type == opt_constraints.ConstraintType.VOLUME:
             constraint_field = out[:, vae_data_prep.VAE_Fields.shape_area.value]
         else:
-            constraint_field = (solver.mesh.elem_dx * perim_scale *
-                                out[:, vae_data_prep.VAE_Fields.shape_perim.value])
+            perim_feat = out[:, vae_data_prep.VAE_Fields.shape_perim.value]
+            if args.effective_area:
+                # Branch A: EFFECTIVE contact area. The geometric perimeter is a
+                # flawed proxy -- a star's concave crevices are geometrically
+                # wetted but flow-dead (recirculation), so they should NOT count
+                # as usable contact/transfer surface. Discount each cell's
+                # perimeter by a convexity factor conv = clamp(kappa/kappa_ref,0,1),
+                # kappa = area/perim^2 (compactness). Calibrated kappa_ref=0.3136
+                # (dataset p95) -> circles/leaves conv~1 (full credit), m>7 stars
+                # conv~0.17 (6x discount). Optimiser must then use compact good-
+                # flow shapes (circle/lens) to satisfy the contact-area target.
+                area_feat = out[:, vae_data_prep.VAE_Fields.shape_area.value]
+                kappa = area_feat / (perim_feat ** 2 + 1e-9)
+                conv = torch.clamp(kappa / args.kappa_ref, 0.0, 1.0)
+                perim_feat = perim_feat * conv
+            constraint_field = solver.mesh.elem_dx * perim_scale * perim_feat
         C00 = out[:, vae_data_prep.VAE_Fields.homog_c00.value] + eps
         C11 = out[:, vae_data_prep.VAE_Fields.homog_c11.value] + eps
         sp_data = out[:, :vae_data_prep.VAE_Fields.homog_c00.value].clone().detach().numpy()
