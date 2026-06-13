@@ -1,0 +1,14 @@
+{
+  "tag": "bent_orient_p9aniso",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 75.69,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 14.26190242363494,
+  "final_contact_area": 91.52478741412975,
+  "max_velocity_magnitude": 0.9812870749567956,
+  "min_cell_vf": 0.0,
+  "orientation_only": true,
+  "runtime_sec": 451.22099137306213
+}

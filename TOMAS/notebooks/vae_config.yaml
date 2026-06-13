@@ -7,6 +7,12 @@ OPTIMIZATION:
   lr: 8.e-3
   save_file: './vae_decoder_net.pkl'
 NETWORK:
-  latent_dim: 2
+  # Branch p9 (2026-06-13): latent_dim 2 -> 3. The 2-D latent is the bottleneck
+  # (A-deepening showed all shape methods are bounded by the 2-D VAE's
+  # permeability<->contact-area Pareto; avg reconstruction ~20-45% vs paper
+  # Table-1 0.1-4%). A 3-D latent gives the decoder more capacity to embed the
+  # 6-D super-shape manifold -> lower reconstruction error -> a better Pareto
+  # that should lift all three flow-physics methods (power toward the paper's 25).
+  latent_dim: 3
   encoder_hidden_dim: 600
   decoder_hidden_dim: 600

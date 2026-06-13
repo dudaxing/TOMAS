@@ -44,7 +44,7 @@ NORM_TYPES = ([vae_data_prep.NomalizationType.LINEAR] * 8 +
 CXY_CONST = 1e-5  # near-constant super-shape center coords (dropped from the 10-D VAE)
 
 
-def build(config_data, vae_dir, seed=77):
+def build(config_data, vae_dir, seed=77, latent_dim=2):
     bb = fluid_mesher.BoundingBox(**{k: config_data["BOUNDING_BOX"][k]
                                      for k in ("x_min", "x_max", "y_min", "y_max")})
     mesh = fluid_mesher.fluid_mesher(config_data["MESH"]["nelx"],
@@ -68,13 +68,16 @@ def build(config_data, vae_dir, seed=77):
 
     nn_params = neural_network.NeuralNetworkParameters(
         input_dim=2 * config_data["FOURIER_MAP_PARAMS"]["num_fourier_terms"],
-        output_dim=config_data["NEURAL_NETWORK_PARAMS"]["output_dim"],
+        # output = latent_dim z-components + 1 orientation theta (net.forward
+        # splits nn_out[:, :-1] -> z, nn_out[:, -1] -> theta). For a 3-D latent
+        # this is 4, not the config's hard-coded 3.
+        output_dim=latent_dim + 1,
         num_layers=config_data["NEURAL_NETWORK_PARAMS"]["num_layers"],
         num_neurons_per_layer=config_data["NEURAL_NETWORK_PARAMS"]["num_neurons_per_layer"])
     net = neural_network.TopOptNet(nn_params=nn_params, seed=seed)
 
     vae_params = vae_network.VAE_Params(input_dim=12, encoder_hidden_dim=600,
-                                        latent_dim=2, decoder_hidden_dim=600)
+                                        latent_dim=latent_dim, decoder_hidden_dim=600)
     vae = vae_network.VariationalAutoencoder(vae_params=vae_params)
     vae.encoder.is_training = False
     vae.load_state_dict(torch.load(os.path.join(vae_dir, "vae_net.pt")))
@@ -144,6 +147,13 @@ def main():
     ap.add_argument("--max-radius", type=float, default=None,
                     help="override FOURIER_MAP_PARAMS.max_radius; lower (e.g. 150-300) -> "
                          "lower-frequency Fourier features -> smoother latent field.")
+    ap.add_argument("--effective-area", action="store_true",
+                    help="Method A: effective contact area (geometric perimeter x convexity) so "
+                         "flow-dead star crevices do not count toward the contact-area target.")
+    ap.add_argument("--kappa-ref", type=float, default=0.3136,
+                    help="convexity reference compactness area/perim^2 (dataset p95=0.3136).")
+    ap.add_argument("--conv-power", type=float, default=1.0,
+                    help="soften the convexity discount: eff_perim = perim * conv^gamma.")
     ap.add_argument("--min-cell-vf", type=float, default=0.0,
                     help="PER-CELL minimum solid volume fraction (paper Sec 3.7: 'we impose "
                          "a minimum volume constraint on each microstructure'). Forbids "
@@ -159,13 +169,15 @@ def main():
     if args.max_radius is not None:
         cfg["FOURIER_MAP_PARAMS"]["max_radius"] = args.max_radius
     with open(os.path.join(REPO, "notebooks", "vae_config.yaml")) as f:
-        _ = yaml.safe_load(f)
+        vae_cfg = yaml.safe_load(f)
+    latent_dim = vae_cfg["NETWORK"]["latent_dim"]
 
     tag = args.tag or os.path.splitext(os.path.basename(args.config))[0]
     out_dir = os.path.join(args.out_dir, tag)
     os.makedirs(out_dir, exist_ok=True)
 
-    mesh, solver, fmat, fmap, net, vae, max_feature, min_feature = build(cfg, args.vae_dir, seed=args.seed)
+    mesh, solver, fmat, fmap, net, vae, max_feature, min_feature = build(
+        cfg, args.vae_dir, seed=args.seed, latent_dim=latent_dim)
     if args.init_net:
         net.load_state_dict(torch.load(args.init_net))
         print(f"warm-started NN from {args.init_net}")
@@ -224,8 +236,16 @@ def main():
         if constraint_type == opt_constraints.ConstraintType.VOLUME:
             constraint_field = out[:, vae_data_prep.VAE_Fields.shape_area.value]
         else:
-            constraint_field = (solver.mesh.elem_dx * perim_scale *
-                                out[:, vae_data_prep.VAE_Fields.shape_perim.value])
+            perim_feat = out[:, vae_data_prep.VAE_Fields.shape_perim.value]
+            if args.effective_area:
+                # Method A on the 3-D VAE: effective contact area = geometric
+                # perimeter x convexity^gamma, discounting flow-dead star
+                # crevices so the optimiser uses good-flow shapes.
+                area_feat = out[:, vae_data_prep.VAE_Fields.shape_area.value]
+                kappa = area_feat / (perim_feat ** 2 + 1e-9)
+                conv = torch.clamp(kappa / args.kappa_ref, 0.0, 1.0) ** args.conv_power
+                perim_feat = perim_feat * conv
+            constraint_field = solver.mesh.elem_dx * perim_scale * perim_feat
         C00 = out[:, vae_data_prep.VAE_Fields.homog_c00.value] + eps
         C11 = out[:, vae_data_prep.VAE_Fields.homog_c11.value] + eps
         sp_data = out[:, :vae_data_prep.VAE_Fields.homog_c00.value].clone().detach().numpy()

@@ -42,8 +42,8 @@ F = data_preprocess.VAE_Fields
 CXY_CONST = 1e-5
 
 
-def load_vae(vae_dir):
-    p = network.VAE_Params(input_dim=12, encoder_hidden_dim=600, latent_dim=2,
+def load_vae(vae_dir, latent_dim=2):
+    p = network.VAE_Params(input_dim=12, encoder_hidden_dim=600, latent_dim=latent_dim,
                            decoder_hidden_dim=600)
     vae = network.VariationalAutoencoder(vae_params=p)
     vae.encoder.is_training = False
@@ -100,12 +100,24 @@ def main():
     args = ap.parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
 
-    vae, mx, mn = load_vae(args.vae_dir)
+    # latent dim from vae_config (supports the 3-D experiment, branch p9)
+    with open(os.path.join(REPO, "notebooks", "vae_config.yaml")) as f:
+        latent_dim = yaml.safe_load(f)["NETWORK"]["latent_dim"]
+    vae, mx, mn = load_vae(args.vae_dir, latent_dim=latent_dim)
 
     # ---------- 3.1 Ideal micro-structure selection (Fig 10) ----------
-    g = np.linspace(-3, 3, args.grid)
-    Z1, Z2 = np.meshgrid(g, g)
-    Z = torch.tensor(np.stack([Z1.ravel(), Z2.ravel()], axis=1)).double()
+    # Sample the decoder on a latent grid. For >2-D use a coarser per-axis
+    # resolution so the total point count stays tractable (grid_nd^latent_dim).
+    if latent_dim <= 2:
+        g = np.linspace(-3, 3, args.grid)
+        mesh_axes = np.meshgrid(*([g] * latent_dim))
+        Z = torch.tensor(np.stack([a.ravel() for a in mesh_axes], axis=1)).double()
+    else:
+        gnd = max(20, int(round(args.grid ** (2.0 / latent_dim))))  # ~grid^2 total
+        g = np.linspace(-3, 3, gnd)
+        mesh_axes = np.meshgrid(*([g] * latent_dim))
+        Z = torch.tensor(np.stack([a.ravel() for a in mesh_axes], axis=1)).double()
+        print(f"[3.1] latent_dim={latent_dim}: {gnd}^{latent_dim}={Z.shape[0]} grid points")
     with torch.no_grad():
         out = decode(vae, Z, mx, mn).numpy()
     vf = out[:, F.shape_area.value]
@@ -171,7 +183,7 @@ def main():
             {"z": z_star, "shape_params": mstr_star})
 
     plt.figure(figsize=(5, 4))
-    plt.scatter(Z1.ravel()[mask], Z2.ravel()[mask], c=trace[mask], cmap="viridis", s=8)
+    plt.scatter(mesh_axes[0].ravel()[mask], mesh_axes[1].ravel()[mask], c=trace[mask], cmap="viridis", s=8)
     plt.colorbar(label="trace(C) = C00+C11")
     plt.scatter([z_star[0]], [z_star[1]], marker="*", s=300, c="red", label="M*")
     plt.xlabel("$z_1$"); plt.ylabel("$z_2$"); plt.legend()

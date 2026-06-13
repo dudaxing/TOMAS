@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p9A",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 80.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 55.17097553717605,
+  "final_contact_area": 51.57058594159999,
+  "max_velocity_magnitude": 2.847020360974577,
+  "min_cell_vf": 0.0,
+  "orientation_only": false,
+  "runtime_sec": 35.89955163002014
+}

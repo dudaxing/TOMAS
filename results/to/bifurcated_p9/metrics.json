@@ -1,0 +1,14 @@
+{
+  "tag": "bifurcated_p9",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 26.961668721736316,
+  "final_contact_area": 69.08371266259257,
+  "max_velocity_magnitude": 1.8406725603558127,
+  "min_cell_vf": 0.1,
+  "orientation_only": false,
+  "runtime_sec": 47.328208684921265
+}
