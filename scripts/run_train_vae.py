@@ -59,6 +59,16 @@ def main():
                     help="override OPTIMIZATION.kl_factor (P5 beta sweep: stronger KL -> "
                          "smoother/better-organized latent map -> caps extreme-perimeter "
                          "shapes like the paper's decoder). Default: use vae_config.yaml.")
+    ap.add_argument("--aniso-stratify", action="store_true",
+                    help="P6: resample (with replacement) to FLATTEN the anisotropy "
+                         "distribution so the VAE allocates latent capacity to the rare "
+                         "anisotropic (leaf/fish) tail instead of the isotropic bulk.")
+    ap.add_argument("--aniso-seed", type=int, default=0,
+                    help="RNG seed for --aniso-stratify resampling")
+    ap.add_argument("--aniso-power", type=float, default=1.0,
+                    help="strength of --aniso-stratify flattening: 1.0 = full inverse-"
+                         "frequency (flat histogram, aggressive); 0.5 = partial (keeps the "
+                         "round/isotropic bulk for walls AND the anisotropic tail); 0 = off.")
     args = ap.parse_args()
 
     with open(args.datagen_config) as f:
@@ -90,6 +100,38 @@ def main():
                                            c11[keep], area[keep], perim[keep])
     print(f"Loaded dataset #{dnum}: kept {int(keep.sum())}/{n_raw} samples "
           f"(dropped {n_raw - int(keep.sum())} with vf<{args.min_vf} or perim<{args.min_perim})")
+
+    # P6: anisotropy-stratified resampling. Uniform (a,b,m,n) sampling puts ~95%
+    # of cells near isotropic (anisotropy ratio ~1) and only ~5% at >=4x, so the
+    # 2-D VAE allocates almost all latent capacity to the isotropic bulk and
+    # regresses the rare anisotropic tail toward the mean (decoded 1.19x vs true
+    # 4.1x). Resampling (with replacement) to FLATTEN the log-anisotropy
+    # histogram makes the VAE see leaf/fish cells as often as round ones, so the
+    # decoder preserves anisotropy -> directional M* and steerable channel cells
+    # without raising KL (which would kill anisotropy, cf. P5).
+    if args.aniso_stratify:
+        aniso = (np.maximum(c00[:, 0], c11[:, 0]) /
+                 np.maximum(np.minimum(c00[:, 0], c11[:, 0]), 1e-12))
+        la = np.log10(np.clip(aniso, 1.0, None))
+        nb = 12
+        edges = np.linspace(0.0, la.max() + 1e-9, nb + 1)
+        b = np.clip(np.digitize(la, edges) - 1, 0, nb - 1)
+        cnt = np.bincount(b, minlength=nb).astype(float)
+        # w ∝ (1/bin_count)^power: power=1 fully flattens the histogram (can be
+        # too aggressive -> wipes out the round/isotropic shapes needed for walls
+        # + low sample diversity); power<1 (e.g. 0.5) PARTIALLY flattens, keeping
+        # both the anisotropic tail AND the round bulk -> a single VAE that serves
+        # the bent pipe (anisotropic M*) and the bifurcated walls (circles).
+        w = (1.0 / np.maximum(cnt[b], 1.0)) ** args.aniso_power
+        w = w / w.sum()
+        rng = np.random.default_rng(args.aniso_seed)
+        sel = rng.choice(len(la), size=len(la), replace=True, p=w)
+        shape_params, c00, c11, area, perim = (shape_params[sel], c00[sel],
+                                               c11[sel], area[sel], perim[sel])
+        print(f"[aniso-stratify] resampled {len(sel)} (w/ replacement); anisotropy "
+              f"median {np.median(aniso):.2f}->{np.median(aniso[sel]):.2f}, "
+              f">=4x {(aniso >= 4).mean():.1%}->{(aniso[sel] >= 4).mean():.1%}, "
+              f"unique {len(np.unique(sel))}")
 
     # 10 features (paper): [a,b,m,n1,n2,n3] + C00 + C11 + perim + area.
     # The near-constant center coords (cx,cy = shape_params[:,6:8]) are dropped.

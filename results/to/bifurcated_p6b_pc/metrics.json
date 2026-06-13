@@ -1,0 +1,14 @@
+{
+  "tag": "bifurcated_p6b_pc",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 27.559886571712767,
+  "final_contact_area": 69.47512849147036,
+  "max_velocity_magnitude": 1.843757050372669,
+  "min_cell_vf": 0.1,
+  "orientation_only": false,
+  "runtime_sec": 46.58940935134888
+}

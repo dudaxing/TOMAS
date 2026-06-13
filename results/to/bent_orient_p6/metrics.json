@@ -1,0 +1,14 @@
+{
+  "tag": "bent_orient_p6",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 75.69,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 18.32498219392437,
+  "final_contact_area": 114.30373308387152,
+  "max_velocity_magnitude": 0.979657460036437,
+  "min_cell_vf": 0.0,
+  "orientation_only": true,
+  "runtime_sec": 461.8494601249695
+}
