@@ -1,0 +1,14 @@
+{
+  "tag": "bent_orient_p12",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 75.69,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 16.473692871420667,
+  "final_contact_area": 150.54470623459392,
+  "max_velocity_magnitude": 0.9809673219821402,
+  "min_cell_vf": 0.0,
+  "orientation_only": true,
+  "runtime_sec": 509.96641635894775
+}

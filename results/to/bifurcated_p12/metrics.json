@@ -1,0 +1,14 @@
+{
+  "tag": "bifurcated_p12",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 29.187398962527254,
+  "final_contact_area": 65.45421870068924,
+  "max_velocity_magnitude": 1.8439888793638393,
+  "min_cell_vf": 0.1,
+  "orientation_only": false,
+  "runtime_sec": 44.3890814781189
+}
