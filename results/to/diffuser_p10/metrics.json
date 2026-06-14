@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p10",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 36.355743143151415,
+  "final_contact_area": 54.2989271274305,
+  "max_velocity_magnitude": 2.8115840597798716,
+  "min_cell_vf": 0.0,
+  "orientation_only": false,
+  "runtime_sec": 31.27199411392212
+}

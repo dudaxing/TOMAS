@@ -1,0 +1,14 @@
+{
+  "tag": "bifurcated_p10",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 70.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 351,
+  "lr": 0.004,
+  "final_dissipated_power": 27.41217776654824,
+  "final_contact_area": 68.25185537161445,
+  "max_velocity_magnitude": 1.8429679365856606,
+  "min_cell_vf": 0.1,
+  "orientation_only": false,
+  "runtime_sec": 46.6935179233551
+}

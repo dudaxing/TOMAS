@@ -3,15 +3,18 @@ SUPERSHAPE:
   max_a: 0.75
   min_b: 5.e-2
   max_b: 0.75
-  # P0 (2026-06-12): UPSTREAM-AUTHOR-EXACT ranges, restored from
-  # github.com/UW-ERSL/TOMAS notebooks/datagen.yaml. The paper TEXT (Sec 2.3)
-  # says m in [1,22], but the AUTHORS' CODE — which produced the paper's
-  # figures — uses m in [0.5,11]. Decisive evidence: the paper's Fig-10 ideal
-  # micro-structure M* has m=0.604, INSIDE [0.5,11] (interpolation) but outside
-  # [1,22] (extrapolation). m<1 is where the strongly-anisotropic leaf/fish/eye
-  # shapes live, and m<=11 has no 12-22-point spiky stars.
+  # Branch B (p8b, 2026-06-13): FLUID-PRINCIPLED library. Cap m at 4 (was author
+  # 11) on a flow-physics basis: the dataset flow-quality metric C_major/perim is
+  # leaf m<2 0.0339 >> circle m2-4 0.0123 >> scallop m4-7 0.0059 >> star m7-11
+  # 0.0038 (9x worse). High-m star/gear cells have flow-dead concave crevices
+  # (recirculation, isotropic high drag) and only serve to game the geometric-
+  # perimeter contact-area proxy. Capping m<=4 keeps ONLY the good-flow families
+  # the user identified -- leaf/lens (m~2, low n), fish/eye (m<1), circle/ellipse
+  # (m 2-4, high n) -- and drops scallop+star. n kept full [0.5,10] (low n at
+  # m<=4 gives convex pointed lens/fish, NOT gears). Combined with anisotropy
+  # stratification (run_p8b.sh) so the bent-pipe M* stays anisotropic.
   min_m: 0.5
-  max_m: 11.
+  max_m: 4.
   min_n1: 0.5
   max_n1: 10.
   min_n2: 0.5
