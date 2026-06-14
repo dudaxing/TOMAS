@@ -1,0 +1,14 @@
+{
+  "tag": "bent_orient_p11kl8",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 75.69,
+  "desired_vol_frac": 0.75,
+  "num_epochs": 301,
+  "lr": 0.004,
+  "final_dissipated_power": 20.108509720015377,
+  "final_contact_area": 126.10875693043059,
+  "max_velocity_magnitude": 0.97935037244349,
+  "min_cell_vf": 0.0,
+  "orientation_only": true,
+  "runtime_sec": 411.9520218372345
+}

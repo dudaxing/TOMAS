@@ -1,0 +1,14 @@
+{
+  "tag": "diffuser_p11kl8",
+  "constraint_type": "PERIMETER",
+  "desired_perimeter": 60.0,
+  "desired_vol_frac": 0.5,
+  "num_epochs": 301,
+  "lr": 0.002,
+  "final_dissipated_power": 22.52566781748371,
+  "final_contact_area": 60.031385559060524,
+  "max_velocity_magnitude": 2.7912220848973037,
+  "min_cell_vf": 0.0,
+  "orientation_only": false,
+  "runtime_sec": 28.35519051551819
+}
